@@ -1,0 +1,2110 @@
+/* ============================================================
+   Radix Spine — Apple-native "Liquid Glass" stylesheet
+   SF Pro system stack · Apple Health blue accent · light + dark
+   ============================================================ */
+
+/* ---------- Design tokens ---------- */
+:root {
+  /* Apple system font stacks (NO web fonts) */
+  --font-text: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro",
+    system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: ui-rounded, -apple-system, BlinkMacSystemFont, "SF Pro Rounded",
+    "SF Pro Display", system-ui, "Helvetica Neue", Arial, sans-serif;
+
+  /* Brown University Health accent ramp — Brown Health teal/green primary
+     interactive color; Brown red reserved as a brand-only touch (logo/favicon). */
+  --accent: #008a76;
+  --accent-strong: #00a88e;
+  --accent-soft: rgba(0, 138, 118, 0.12);
+  --accent-ring: rgba(0, 138, 118, 0.4);
+  --accent-on: #ffffff;
+  --brown-red: #ed1c24;
+
+  /* Light: clean white / iOS systemGroupedBackground gray surfaces */
+  --bg: #f2f2f7;
+  --bg-tint-1: #ffffff;
+  --bg-tint-2: #e9e9ef;
+  --surface: rgba(255, 255, 255, 0.72);
+  --surface-strong: rgba(255, 255, 255, 0.9);
+  --surface-solid: #ffffff;
+  --hairline: rgba(60, 60, 67, 0.12);
+  --hairline-strong: rgba(60, 60, 67, 0.22);
+  --specular: rgba(255, 255, 255, 0.75);
+
+  --ink: #1c1c1e;
+  --ink-2: #3c3c43;
+  --ink-3: #8a8a8e;
+
+  --glass-blur: 22px;
+  --glass-sat: 180%;
+
+  --shadow-sm: 0 1px 2px rgba(60, 60, 67, 0.06), 0 4px 14px rgba(60, 60, 67, 0.06);
+  --shadow-md: 0 6px 26px rgba(60, 60, 67, 0.1), 0 2px 8px rgba(60, 60, 67, 0.06);
+  --shadow-lg: 0 24px 70px rgba(28, 28, 30, 0.18);
+
+  --radius-sm: 12px;
+  --radius: 18px;
+  --radius-lg: 26px;
+  --radius-pill: 999px;
+
+  --maxw: 1180px;
+  --nav-h: 60px;
+  --tab-h: 64px;
+
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--font-text);
+  color: var(--ink);
+  background:
+    radial-gradient(115% 80% at 12% -8%, var(--bg-tint-1) 0%, transparent 55%),
+    radial-gradient(120% 90% at 92% 0%, var(--accent-soft) 0%, transparent 42%),
+    radial-gradient(120% 120% at 80% 110%, var(--bg-tint-2) 0%, transparent 60%),
+    var(--bg);
+  background-attachment: fixed;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -0.01em;
+  padding-bottom: calc(var(--tab-h) + env(safe-area-inset-bottom, 0));
+}
+
+@media (min-width: 900px) {
+  body { padding-bottom: 0; }
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.skip {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  z-index: 200;
+  background: var(--accent);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 0 0 var(--radius-sm) 0;
+}
+.skip:focus { left: 0; }
+
+:focus-visible {
+  outline: 2px solid var(--accent-ring);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ---------- Glass primitives ---------- */
+.glass {
+  background: var(--surface);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  border: 1px solid var(--hairline);
+  box-shadow: var(--shadow-md), inset 0 1px 0 var(--specular);
+}
+.glass-strong {
+  background: var(--surface-strong);
+  backdrop-filter: blur(34px) saturate(var(--glass-sat));
+  -webkit-backdrop-filter: blur(34px) saturate(var(--glass-sat));
+  border: 1px solid var(--hairline-strong);
+  box-shadow: var(--shadow-lg), inset 0 1px 0 var(--specular);
+}
+.glass-subtle {
+  background: var(--surface);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid var(--hairline);
+}
+
+/* ---------- Top navigation bar ---------- */
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  background: color-mix(in srgb, var(--bg) 64%, transparent);
+  backdrop-filter: blur(24px) saturate(var(--glass-sat));
+  -webkit-backdrop-filter: blur(24px) saturate(var(--glass-sat));
+  border-bottom: 1px solid var(--hairline);
+}
+.nav-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  height: var(--nav-h);
+  padding: 0 clamp(16px, 4vw, 32px);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 12px;
+  color: var(--ink);
+}
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: inset 0 1px 0 var(--specular);
+}
+.brand-mark svg { width: 24px; height: 24px; }
+.brand-logo {
+  display: block;
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+}
+.brand-text { display: flex; flex-direction: column; line-height: 1.05; text-align: left; }
+.brand-name { font-family: var(--font-display); font-weight: 700; font-size: 16px; letter-spacing: -0.02em; }
+.brand-sub { font-size: 11px; color: var(--ink-3); font-weight: 500; }
+.brand-sub-tool {
+  padding-left: 12px;
+  margin-left: 2px;
+  border-left: 1px solid var(--hairline-strong);
+  align-self: center;
+}
+@media (max-width: 480px) {
+  .brand-logo { height: 30px; }
+  .brand-sub-tool { display: none; }
+}
+
+.nav-links {
+  display: none;
+  gap: 2px;
+  margin-left: 10px;
+  margin-right: auto;
+}
+@media (min-width: 900px) {
+  .nav-links { display: flex; }
+}
+.nav-link {
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-text);
+  font-size: 14px;
+  font-weight: 550;
+  color: var(--ink-2);
+  padding: 8px 13px;
+  border-radius: var(--radius-pill);
+  transition: color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.nav-link:hover { color: var(--ink); background: var(--accent-soft); }
+.nav-link.is-active { color: var(--accent); background: var(--accent-soft); }
+
+/* ---------- Layout ---------- */
+main { display: block; }
+.container {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: clamp(20px, 4vw, 40px) clamp(16px, 4vw, 32px) 80px;
+}
+.page { animation: pageIn 0.5s var(--ease); }
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.995); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- Large-title headers ---------- */
+.eyebrow {
+  font-size: 12.5px;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 10px;
+}
+.large-title-block, .page-intro { margin-bottom: clamp(22px, 4vw, 36px); }
+.large-title {
+  font-family: var(--font-display);
+  font-weight: 720;
+  font-size: clamp(28px, 5.2vw, 46px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin: 0 0 14px;
+  max-width: 16ch;
+}
+.lede {
+  font-size: clamp(15px, 1.6vw, 18px);
+  line-height: 1.55;
+  color: var(--ink-2);
+  margin: 0 0 14px;
+  max-width: 62ch;
+}
+.lede strong { color: var(--ink); }
+
+.hero-note {
+  display: inline-block;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  font-size: 13.5px;
+  color: var(--ink-2);
+  margin: 6px 0 0;
+}
+.hero-note .cite { font-weight: 600; }
+
+.steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.steps span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  font-weight: 550;
+  color: var(--ink-2);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  padding: 7px 12px;
+  border-radius: var(--radius-pill);
+}
+.steps strong {
+  display: grid; place-items: center;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--accent); color: #fff;
+  font-size: 11px;
+}
+
+/* ---------- Home region grid ---------- */
+.region-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+@media (min-width: 680px) { .region-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1000px) { .region-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 1000px) { .region-grid-learn { grid-template-columns: repeat(3, 1fr); } }
+
+.region-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  text-align: left;
+  cursor: pointer;
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  color: var(--ink);
+  font-family: var(--font-text);
+  transition: transform 0.4s var(--spring), box-shadow 0.3s var(--ease);
+}
+.region-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg), inset 0 1px 0 var(--specular); }
+.region-card:active { transform: translateY(-1px) scale(0.99); }
+.region-icon {
+  display: grid; place-items: center;
+  width: 44px; height: 44px;
+  border-radius: 13px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.region-icon svg { width: 24px; height: 24px; }
+.region-kicker { font-size: 11.5px; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; color: var(--ink-3); }
+.region-title { font-family: var(--font-display); font-weight: 680; font-size: 19px; letter-spacing: -0.02em; }
+.region-copy { font-size: 13px; color: var(--ink-2); line-height: 1.45; margin-top: 4px; }
+.region-chevron {
+  position: absolute; top: 18px; right: 18px;
+  font-size: 22px; color: var(--ink-3);
+  transition: transform 0.3s var(--spring), color 0.2s;
+}
+.region-card:hover .region-chevron { transform: translateX(3px); color: var(--accent); }
+/* ---------- Region layout (controls + readout) ---------- */
+.region-layout, .symptom-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+  margin-bottom: 30px;
+}
+@media (min-width: 960px) {
+  .region-layout, .symptom-layout { grid-template-columns: 360px minmax(0, 1fr); align-items: start; }
+}
+.controls { min-width: 0; }
+
+.controls {
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  position: sticky;
+  top: calc(var(--nav-h) + 12px);
+}
+@media (max-width: 959px) { .controls { position: static; } }
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0 0 12px;
+}
+.section-title + .section-title { margin-top: 22px; }
+
+/* ---------- Segmented control (disc levels / morphology) ---------- */
+.segmented {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+  padding: 4px;
+  border-radius: var(--radius);
+  background: var(--bg-tint-2);
+  border: 1px solid var(--hairline);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.06);
+}
+.segmented-stack { grid-template-columns: minmax(0, 1fr); }
+.disc-btn, .seg-btn {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  font-family: var(--font-text);
+  color: var(--ink-2);
+  background: transparent;
+  border-radius: 13px;
+  padding: 9px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+  transition: color 0.2s var(--ease), background 0.3s var(--ease), box-shadow 0.3s var(--ease), transform 0.2s var(--spring);
+}
+.disc-btn:hover, .seg-btn:hover { color: var(--ink); }
+.disc-btn:active, .seg-btn:active { transform: scale(0.96); }
+.disc-btn.is-active, .seg-btn.is-active {
+  background: var(--surface-solid);
+  color: var(--accent);
+  box-shadow: var(--shadow-sm), inset 0 1px 0 var(--specular);
+}
+.disc-btn-level { font-weight: 650; font-size: 14px; letter-spacing: -0.02em; white-space: nowrap; }
+@media (max-width: 420px) {
+  .disc-btn { padding: 9px 3px; }
+  .disc-btn-level { font-size: 12.5px; }
+  .disc-btn-hint { font-size: 9px; }
+}
+.disc-btn-hint { font-size: 10px; color: var(--ink-3); font-weight: 500; }
+.disc-btn.is-active .disc-btn-hint { color: var(--accent-strong); }
+
+.seg-btn { align-items: flex-start; text-align: left; padding: 12px 14px; }
+.seg-title { font-weight: 620; font-size: 14.5px; }
+.seg-sub { font-size: 12px; color: var(--ink-3); line-height: 1.35; }
+.seg-btn.is-active .seg-sub { color: var(--ink-2); }
+.seg-btn em { color: var(--accent); font-style: normal; font-weight: 600; }
+
+/* Thoracic chip grid */
+.chip-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+.chip-grid .disc-btn {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 13px;
+}
+.chip-grid .disc-btn.is-active {
+  border-color: var(--accent-ring);
+  background: var(--accent-soft);
+}
+
+/* ---------- Rule cards ---------- */
+.rule-card {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--bg-tint-1);
+  border: 1px solid var(--hairline);
+}
+.rule-card h3 { font-family: var(--font-display); font-size: 14px; margin: 0 0 8px; letter-spacing: -0.01em; }
+.rule-card p { font-size: 13px; line-height: 1.5; color: var(--ink-2); margin: 0 0 10px; }
+.rule-card p:last-child { margin-bottom: 0; }
+.why-example { font-size: 13px; line-height: 1.6; }
+.why-pill {
+  display: inline-block;
+  margin-right: 8px;
+  font-size: 10px; font-weight: 650; text-transform: uppercase; letter-spacing: 0.04em;
+  background: var(--accent-soft); color: var(--accent);
+  padding: 3px 9px; border-radius: var(--radius-pill);
+  vertical-align: middle;
+}
+.why-example strong { color: var(--accent); font-weight: 660; }
+
+/* ---------- Readout ---------- */
+.readout { display: flex; flex-direction: column; gap: 16px; }
+.readout-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  border-radius: var(--radius-lg);
+}
+.readout-eyebrow { font-size: 11.5px; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; color: var(--ink-3); }
+.readout-title { font-family: var(--font-display); font-size: clamp(22px, 3vw, 30px); font-weight: 700; letter-spacing: -0.02em; margin: 4px 0 0; }
+
+.root-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  background: linear-gradient(150deg, color-mix(in srgb, var(--accent) 20%, transparent), var(--accent-soft));
+  border: 1px solid var(--accent-ring);
+  min-width: 130px;
+}
+.root-chip-label { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--accent-strong); }
+.root-chip-value { font-family: var(--font-display); font-size: 30px; font-weight: 760; line-height: 1; color: var(--accent); }
+.root-chip-morph { font-size: 11px; color: var(--ink-2); font-weight: 540; margin-top: 2px; text-align: right; }
+
+.root-chip-morph-thumb {
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+}
+.root-chip-text { display: flex; flex-direction: column; align-items: flex-start; }
+.root-chip-morph-thumb .root-chip-value { color: var(--accent); }
+.root-chip-morph-thumb .root-chip-morph { text-align: left; }
+.morph-thumb {
+  border: 1px solid var(--hairline-strong);
+  background: var(--surface-solid);
+  border-radius: 14px;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+  width: 92px; height: 92px;
+  position: relative;
+  flex-shrink: 0;
+  transition: transform 0.35s var(--spring), box-shadow 0.3s var(--ease);
+}
+.morph-thumb:hover { transform: scale(1.04); box-shadow: var(--shadow-md); }
+.morph-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.morph-thumb-hint {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  font-size: 9px; font-weight: 600;
+  background: rgba(0,0,0,0.55); color: #fff;
+  padding: 3px; text-align: center;
+}
+
+/* ---------- Deficit list (grouped inset rows) ---------- */
+.deficit-list {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  padding: 4px;
+}
+.deficit-row {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 15px 16px;
+  border-bottom: 1px solid var(--hairline);
+}
+.deficit-row:last-child { border-bottom: 0; }
+.deficit-ico {
+  flex-shrink: 0;
+  display: grid; place-items: center;
+  width: 34px; height: 34px;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  margin-top: 2px;
+}
+.deficit-ico svg { width: 20px; height: 20px; }
+.deficit-row h3 { font-family: var(--font-display); font-size: 13.5px; margin: 0 0 3px; letter-spacing: -0.01em; }
+.deficit-row p { font-size: 13.5px; line-height: 1.5; color: var(--ink-2); margin: 0; }
+.deficit-row .autozone { margin-top: 5px; font-size: 12.5px; color: var(--accent-strong); font-weight: 540; }
+
+/* ---------- Map card ---------- */
+.map-card { border-radius: var(--radius-lg); padding: 18px 20px; }
+.map-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.map-card-head h3 { font-family: var(--font-display); font-size: 16px; margin: 4px 0 0; letter-spacing: -0.01em; }
+.map-active-root {
+  font-size: 11.5px; font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 5px 11px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+.dermatome-map { border-radius: var(--radius); overflow: hidden; }
+
+/* Human image map layout */
+.human-map-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 560px) { .human-map-layout { grid-template-columns: minmax(0, 200px) 1fr; align-items: start; } }
+.human-map-wrap { position: relative; }
+.human-map-trigger {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--hairline);
+  background: var(--surface-solid);
+  border-radius: var(--radius);
+  padding: 8px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.35s var(--spring), box-shadow 0.3s var(--ease);
+}
+.human-map-trigger:hover { transform: scale(1.01); box-shadow: var(--shadow-md); }
+.dermatome-base-img { width: 100%; height: auto; display: block; border-radius: 10px; }
+.map-enlarge-hint {
+  position: absolute; bottom: 12px; right: 12px;
+  font-size: 10.5px; font-weight: 600;
+  background: rgba(0,0,0,0.6); color: #fff;
+  padding: 4px 10px; border-radius: var(--radius-pill);
+}
+.human-map-side h4 { font-family: var(--font-display); font-size: 15px; margin: 0 0 8px; color: var(--accent); letter-spacing: -0.01em; }
+.human-map-side p { font-size: 12.5px; line-height: 1.5; color: var(--ink-2); margin: 0 0 9px; }
+.human-map-side .landmark { display: block; color: var(--ink); font-weight: 600; margin-bottom: 2px; }
+.map-attribution { font-size: 11px; color: var(--ink-3); }
+.map-attribution a { color: var(--ink-3); text-decoration: underline; }
+.symptom-map-placeholder {
+  padding: 28px 20px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--ink-3);
+  background: var(--bg-tint-1);
+  border-radius: var(--radius);
+  border: 1px dashed var(--hairline-strong);
+}
+
+/* ---------- Note banners ---------- */
+.note-banner {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  background: var(--bg-tint-1);
+  border: 1px solid var(--hairline);
+  border-left: 3px solid var(--accent);
+}
+.note-banner:empty { display: none; }
+
+/* ---------- Matrix tables ---------- */
+.table-scroll {
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+  margin: 6px 0 12px;
+  padding: 4px;
+  -webkit-overflow-scrolling: touch;
+}
+.matrix {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+  font-size: 13px;
+}
+.matrix th, .matrix td {
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--hairline);
+  vertical-align: top;
+  line-height: 1.45;
+}
+.matrix thead th {
+  font-size: 11px;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--ink-3);
+  position: sticky;
+  top: 0;
+  background: var(--surface-strong);
+  backdrop-filter: blur(8px);
+}
+.matrix tbody tr { cursor: pointer; transition: background 0.2s var(--ease); }
+.matrix tbody tr:hover { background: var(--accent-soft); }
+.matrix tbody tr.is-active { background: var(--accent-soft); box-shadow: inset 3px 0 0 var(--accent); }
+.matrix td.root { font-family: var(--font-display); font-weight: 680; color: var(--accent); }
+.matrix tbody tr:last-child td { border-bottom: 0; }
+
+.matrix-caveat { font-size: 12px; color: var(--ink-3); line-height: 1.5; margin: 6px 0 24px; max-width: 76ch; }
+.matrix-head, .atlas-head { margin: 30px 0 16px; }
+.atlas-title { font-family: var(--font-display); font-size: clamp(20px, 3vw, 28px); font-weight: 700; letter-spacing: -0.02em; margin: 0 0 8px; }
+.cite { font-weight: 600; white-space: nowrap; }
+
+/* ---------- Morphology atlas ---------- */
+.atlas-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+@media (min-width: 640px) { .atlas-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1000px) { .atlas-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.atlas-card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.4s var(--spring), box-shadow 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.atlas-card-wide { grid-column: 1 / -1; }
+@media (min-width: 640px) { .atlas-card-wide { grid-column: span 2; flex-direction: row; } }
+@media (min-width: 1000px) { .atlas-card-wide { grid-column: 1 / -1; } }
+.atlas-card-action {
+  position: absolute; inset: 0;
+  border: 0; background: transparent; cursor: pointer;
+  z-index: 2;
+}
+.atlas-card[data-morph-card]:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.atlas-card.is-active { border-color: var(--accent); box-shadow: var(--shadow-md), 0 0 0 2px var(--accent-ring); }
+.atlas-figure { background: var(--surface-solid); display: grid; place-items: center; padding: 10px; }
+.atlas-card-wide .atlas-figure { flex: 0 0 46%; }
+.atlas-figure img { width: 100%; height: auto; max-height: 260px; object-fit: contain; display: block; border-radius: 10px; }
+.atlas-copy { padding: 16px 18px; display: flex; flex-direction: column; gap: 5px; }
+.atlas-copy h3 { font-family: var(--font-display); font-size: 16px; margin: 0; letter-spacing: -0.01em; }
+.atlas-copy p { font-size: 13px; line-height: 1.5; color: var(--ink-2); margin: 0; }
+.atlas-copy strong { color: var(--accent); font-weight: 620; }
+.atlas-note { font-size: 11.5px; color: var(--ink-3); margin-top: 4px; font-weight: 500; }
+.atlas-card.is-active .atlas-note { color: var(--accent-strong); }
+
+/* ---------- Warning + caveat cards ---------- */
+.warning-card {
+  display: flex;
+  gap: 16px;
+  padding: 22px;
+  border-radius: var(--radius-lg);
+  border-color: var(--accent-ring);
+  background: linear-gradient(160deg, var(--accent-soft), var(--surface));
+  margin-top: 20px;
+}
+.warning-mark {
+  flex-shrink: 0;
+  display: grid; place-items: center;
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  background: var(--accent); color: #fff;
+}
+.warning-eyebrow { font-size: 11.5px; font-weight: 650; text-transform: uppercase; letter-spacing: 0.04em; color: var(--accent-strong); margin: 0 0 4px; }
+.warning-body h2 { font-family: var(--font-display); font-size: clamp(18px, 2.6vw, 24px); font-weight: 700; letter-spacing: -0.02em; margin: 0 0 12px; }
+.warning-list { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 9px; }
+.warning-list li { font-size: 13.5px; line-height: 1.55; color: var(--ink-2); }
+.warning-list strong { color: var(--ink); }
+
+.caveat-card { border-radius: var(--radius-lg); padding: 20px; margin-top: 18px; }
+.caveat-card h3 { font-family: var(--font-display); font-size: 16px; margin: 0 0 10px; letter-spacing: -0.01em; }
+.caveat-card p { font-size: 13.5px; line-height: 1.55; color: var(--ink-2); margin: 0 0 10px; }
+.caveat-card ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px; }
+.caveat-card li { font-size: 13px; line-height: 1.55; color: var(--ink-2); }
+.caveat-card strong { color: var(--ink); }
+
+/* ---------- Symptom localizer ---------- */
+.symptom-controls { top: calc(var(--nav-h) + 12px); }
+.symptom-helper { font-size: 12.5px; color: var(--ink-2); line-height: 1.5; margin: 0 0 14px; }
+.symptom-legend {
+  display: flex; flex-wrap: wrap; gap: 8px 14px;
+  font-size: 11.5px; color: var(--ink-2);
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  background: var(--bg-tint-1);
+  border: 1px solid var(--hairline);
+  margin-bottom: 16px;
+}
+.symptom-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.legend-symbol { font-size: 13px; font-weight: 700; }
+.legend-symbol.axial, .legend-symbol.pain, .legend-symbol.burning,
+.legend-symbol.numbness, .legend-symbol.weakness { color: var(--accent); }
+
+.symptom-drawing-builder { display: flex; flex-direction: column; gap: 10px; }
+.symptom-layer-card {
+  border-radius: var(--radius);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  overflow: hidden;
+}
+.symptom-layer-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 14px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-text);
+  color: var(--ink);
+}
+.layer-symbol {
+  flex-shrink: 0;
+  display: grid; place-items: center;
+  width: 30px; height: 30px;
+  border-radius: 9px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 15px; font-weight: 700;
+}
+.symptom-layer-head > span:nth-child(2) { display: flex; flex-direction: column; }
+.symptom-layer-head strong { font-size: 14px; font-weight: 620; }
+.symptom-layer-head small { font-size: 11.5px; color: var(--ink-3); line-height: 1.35; }
+.layer-count {
+  margin-left: auto;
+  min-width: 22px; height: 22px;
+  display: grid; place-items: center;
+  border-radius: var(--radius-pill);
+  font-size: 12px; font-weight: 650;
+  color: var(--accent);
+}
+.layer-count:not(:empty) { background: var(--accent-soft); padding: 0 7px; }
+.symptom-layer-head[aria-expanded="true"] { background: var(--accent-soft); }
+
+.symptom-layer-body { padding: 4px 14px 16px; }
+.symptom-layer-prompt { font-size: 12.5px; font-weight: 550; color: var(--ink); margin: 6px 0 10px; }
+
+/* side toggle (segmented) */
+.side-toggle {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  padding: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-tint-2);
+  border: 1px solid var(--hairline);
+  margin-bottom: 12px;
+}
+.side-btn {
+  border: 0; background: transparent; cursor: pointer;
+  font-family: var(--font-text);
+  font-size: 12.5px; font-weight: 560;
+  color: var(--ink-2);
+  padding: 7px 6px;
+  border-radius: var(--radius-pill);
+  transition: background 0.25s var(--ease), color 0.2s, box-shadow 0.25s;
+}
+.side-btn.is-active { background: var(--surface-solid); color: var(--accent); box-shadow: var(--shadow-sm); }
+
+.symptom-area-list { display: flex; flex-direction: column; gap: 6px; }
+.symptom-area-list.compact { gap: 5px; }
+.symptom-area-group-label {
+  font-size: 10.5px; font-weight: 650; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--ink-3); margin: 8px 0 2px;
+}
+.symptom-area-btn {
+  display: flex; flex-direction: column; gap: 2px;
+  text-align: left;
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+  font-family: var(--font-text);
+  color: var(--ink);
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease), transform 0.15s var(--spring);
+}
+.symptom-area-btn:hover { border-color: var(--hairline-strong); }
+.symptom-area-btn:active { transform: scale(0.99); }
+.symptom-area-btn.is-active { border-color: var(--accent); background: var(--accent-soft); }
+.symptom-area-title { font-size: 13px; font-weight: 560; display: flex; align-items: baseline; gap: 7px; }
+.symptom-area-sub { font-size: 11.5px; color: var(--ink-3); line-height: 1.35; }
+.inline-layer-symbol { color: var(--accent); font-weight: 700; flex-shrink: 0; }
+
+.pill-btn {
+  margin-top: 16px;
+  width: 100%;
+  border: 1px solid var(--hairline-strong);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: 13.5px; font-weight: 580;
+  padding: 11px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: background 0.2s var(--ease), transform 0.15s var(--spring);
+}
+.pill-btn:hover { background: var(--accent-soft); color: var(--accent); }
+.pill-btn:active { transform: scale(0.98); }
+
+/* symptom results */
+.symptom-results { gap: 14px; }
+.symptom-empty {
+  padding: 22px; border-radius: var(--radius-lg);
+  font-size: 13.5px; color: var(--ink-2); line-height: 1.5;
+}
+.symptom-empty[hidden] { display: none; }
+.symptom-layout[hidden] { display: none; } /* author display:grid would otherwise override the hidden attribute */
+.symptom-selection-summary { padding: 16px 18px; border-radius: var(--radius-lg); }
+.symptom-selection-summary[hidden] { display: none; }
+.symptom-selection-summary h3 { font-family: var(--font-display); font-size: 14px; margin: 0 0 10px; letter-spacing: -0.01em; }
+.selection-layer-list { display: flex; flex-direction: column; gap: 9px; }
+.selection-layer-row { display: flex; gap: 11px; align-items: flex-start; }
+.selection-layer-row strong { font-size: 13px; display: block; }
+.selection-layer-row small { font-size: 12px; color: var(--ink-2); line-height: 1.4; display: block; }
+
+.symptom-ranked-results { display: flex; flex-direction: column; gap: 12px; }
+.symptom-result-card {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+  animation: pageIn 0.4s var(--ease);
+}
+.symptom-result-card.is-top {
+  border-color: var(--accent-ring);
+  background: linear-gradient(160deg, var(--accent-soft), var(--surface));
+}
+.symptom-result-head { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.symptom-result-root {
+  font-family: var(--font-display);
+  font-size: 26px; font-weight: 760; color: var(--accent); line-height: 1;
+}
+.symptom-result-score {
+  font-size: 11.5px; font-weight: 620; text-transform: uppercase; letter-spacing: 0.03em;
+  color: var(--accent-strong);
+  background: var(--accent-soft);
+  padding: 4px 11px; border-radius: var(--radius-pill);
+}
+.symptom-result-card > p { font-size: 13.5px; line-height: 1.5; color: var(--ink-2); margin: 0 0 10px; }
+.symptom-result-card > p strong { color: var(--ink); }
+.symptom-clinical-lines { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+.symptom-clinical-lines span { font-size: 12.5px; line-height: 1.5; color: var(--ink-2); }
+.symptom-clinical-lines strong { color: var(--ink); font-weight: 600; }
+.symptom-note {
+  font-size: 12.5px; line-height: 1.5; color: var(--ink-2);
+  padding: 10px 12px; border-radius: 12px;
+  background: var(--bg-tint-1); border: 1px solid var(--hairline);
+  margin: 0 0 10px;
+}
+.symptom-evidence-title { font-size: 11px; font-weight: 650; text-transform: uppercase; letter-spacing: 0.03em; color: var(--ink-3); margin: 0 0 6px; }
+.symptom-evidence { display: flex; flex-direction: column; gap: 5px; }
+.symptom-evidence span {
+  font-size: 12px; color: var(--ink-2); line-height: 1.4;
+  display: flex; align-items: baseline; gap: 7px;
+}
+
+/* ---------- Sources ---------- */
+.sources-list { list-style: none; counter-reset: src; margin: 0; padding: 8px; border-radius: var(--radius-lg); }
+.sources-list li {
+  counter-increment: src;
+  display: flex; flex-direction: column; gap: 3px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--hairline);
+  position: relative;
+  padding-left: 44px;
+}
+.sources-list li:last-child { border-bottom: 0; }
+.sources-list li::before {
+  content: counter(src);
+  position: absolute; left: 14px; top: 14px;
+  width: 20px; height: 20px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--accent-soft); color: var(--accent);
+  font-size: 11px; font-weight: 650;
+}
+.sources-list a { font-weight: 580; font-size: 14px; }
+.sources-list span { font-size: 12.5px; color: var(--ink-2); line-height: 1.45; }
+.footer-disclaimer { font-size: 12px; color: var(--ink-3); line-height: 1.55; margin: 22px 0 0; max-width: 80ch; }
+
+/* ---------- Bottom tab bar (mobile) ---------- */
+.tab-bar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 95;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  height: calc(var(--tab-h) + env(safe-area-inset-bottom, 0));
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  border-radius: 0;
+  border-left: 0; border-right: 0; border-bottom: 0;
+  background: color-mix(in srgb, var(--bg) 60%, transparent);
+}
+@media (min-width: 900px) { .tab-bar { display: none; } }
+.tab {
+  border: 0; background: none; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  color: var(--ink-3);
+  font-family: var(--font-text);
+  transition: color 0.2s var(--ease);
+}
+.tab svg { width: 24px; height: 24px; }
+.tab span { font-size: 10px; font-weight: 550; }
+.tab.is-active { color: var(--accent); }
+.tab:active { transform: scale(0.93); }
+/* Primary "Draw" tab — the app's main feature, gently emphasized */
+.tab.tab-primary { color: var(--accent); }
+.tab.tab-primary svg {
+  width: 30px; height: 30px;
+  padding: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-on);
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.32);
+}
+.tab.tab-primary span { font-weight: 650; }
+.tab.tab-primary.is-active svg { box-shadow: 0 4px 14px rgba(0, 122, 255, 0.45); }
+
+/* ---------- Sheets (map + morph viewers) ---------- */
+body.sheet-open { overflow: hidden; }
+.sheet-overlay {
+  position: fixed; inset: 0;
+  z-index: 120;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+@media (min-width: 720px) { .sheet-overlay { align-items: center; } }
+.sheet-overlay[hidden] { display: none; }
+.sheet-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(10, 8, 6, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: fade 0.3s var(--ease);
+}
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+.sheet {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: 28px 28px 0 0;
+  padding: 8px 0 16px;
+  animation: sheetUp 0.42s var(--spring);
+}
+@media (min-width: 720px) {
+  .sheet { border-radius: var(--radius-lg); max-height: 88vh; margin: 20px; animation: sheetPop 0.4s var(--spring); }
+}
+@keyframes sheetUp { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes sheetPop { from { opacity: 0; transform: scale(0.94) translateY(20px); } to { opacity: 1; transform: none; } }
+.sheet-grabber {
+  width: 38px; height: 5px;
+  border-radius: 3px;
+  background: var(--hairline-strong);
+  margin: 4px auto 8px;
+}
+@media (min-width: 720px) { .sheet-grabber { display: none; } }
+.sheet-head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 14px;
+  padding: 6px 22px 14px;
+  border-bottom: 1px solid var(--hairline);
+}
+.sheet-head h2 { font-family: var(--font-display); font-size: 19px; font-weight: 700; letter-spacing: -0.02em; margin: 4px 0 0; }
+.sheet-close, .map-viewer-close {
+  flex-shrink: 0;
+  display: grid; place-items: center;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.25s var(--spring), background 0.2s;
+}
+.sheet-close:hover { background: var(--accent-soft); color: var(--accent); transform: scale(1.06); }
+.sheet-body, .map-viewer-body {
+  flex: 1;
+  overflow: auto;
+  padding: 16px 22px;
+  -webkit-overflow-scrolling: touch;
+}
+.sheet-canvas { display: grid; place-items: center; }
+.sheet-canvas img { width: 100%; max-width: 560px; height: auto; border-radius: var(--radius); }
+.morph-viewer-canvas img { max-width: 520px; }
+.sheet-caption { font-size: 12px; color: var(--ink-3); line-height: 1.5; padding: 6px 22px 0; margin: 0; }
+
+body.map-viewer-open { overflow: hidden; }
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}
+
+/* ===================================================================
+   Body-paint symptom localizer
+   =================================================================== */
+
+/* Symptom-channel cue colors (clinical semantics; Apple Health system palette) */
+:root {
+  --brush-axial: #8e8e93;      /* systemGray — axial neck/back pain */
+  --brush-pain: #ff3b30;       /* systemRed */
+  --brush-burning: #ff9500;    /* systemOrange */
+  --brush-numbness: #007aff;   /* systemBlue */
+  --brush-weakness: #af52de;   /* systemPurple */
+  --brush-axial-soft: rgba(142, 142, 147, 0.18);
+  --brush-pain-soft: rgba(255, 59, 48, 0.16);
+  --brush-burning-soft: rgba(255, 149, 0, 0.16);
+  --brush-numbness-soft: rgba(0, 122, 255, 0.16);
+  --brush-weakness-soft: rgba(175, 82, 222, 0.16);
+}
+
+/* Mode toggle (Paint / List) */
+.mode-toggle {
+  display: inline-flex;
+  gap: 4px;
+  margin-top: 18px;
+  padding: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  backdrop-filter: blur(18px) saturate(var(--glass-sat));
+  -webkit-backdrop-filter: blur(18px) saturate(var(--glass-sat));
+  border: 1px solid var(--hairline);
+  box-shadow: var(--shadow-sm);
+}
+.mode-btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--ink-2);
+  font: 600 0.95rem/1 var(--font-text);
+  padding: 9px 22px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: color 0.25s var(--ease), background 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.mode-btn:hover { color: var(--ink); }
+.mode-btn.is-active {
+  color: var(--accent-on);
+  background: var(--accent);
+  box-shadow: 0 2px 10px var(--accent-ring);
+}
+
+/* Paint layout: figure column wider than results on desktop.
+   Both columns are pinned below the nav and scroll independently, so the
+   live results updating never shifts the body figure while marking. */
+@media (min-width: 960px) {
+  .paint-layout { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); }
+  .paint-layout > .paint-controls,
+  .paint-layout > .symptom-results {
+    position: sticky;
+    top: calc(var(--nav-h) + 12px);
+    max-height: calc(100vh - var(--nav-h) - 24px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  .paint-layout > .symptom-results { padding-right: 2px; }
+}
+
+.paint-controls { display: flex; flex-direction: column; gap: 16px; }
+
+/* ===== Digital pain-drawing form ===== */
+/* The whole control card reads like a clean white paper chart. */
+.pain-diagram-form {
+  background: #fff;
+  border: 1px solid var(--hairline);
+}
+.pain-diagram-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #1b1d22;
+  margin: 0;
+}
+.pain-diagram-instruction {
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: #3a3f47;
+  margin: 0;
+}
+
+/* Legend doubles as the symbol picker. Black line-art glyphs on white,
+   matching the paper Pain Diagram key. */
+.pain-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(86px, 1fr));
+  gap: 8px;
+  padding: 10px;
+  border-radius: var(--radius);
+  background: #fff;
+  border: 1px solid #d7dade;
+}
+.brush-btn {
+  appearance: none;
+  min-width: 0;
+  min-height: 64px;
+  border: 1.5px solid #d7dade;
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 9px 6px 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  color: #3a3f47;
+  transition: transform 0.2s var(--spring), background 0.2s var(--ease),
+    border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.brush-btn:hover { transform: translateY(-1px); border-color: #9aa0a8; }
+.brush-glyph-svg {
+  width: 34px; height: 22px;
+  flex: none;
+  display: block;
+}
+.brush-glyph-svg .stroke { stroke: #1b1d22; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+.brush-glyph-svg .nofill { fill: none; }
+.brush-name {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.005em;
+  text-align: center;
+  line-height: 1.15;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+.brush-btn.is-active {
+  color: #1b1d22;
+  background: #eef1f4;
+  border-color: #1b1d22;
+  box-shadow: inset 0 0 0 1px #1b1d22;
+}
+
+.paint-actions { display: flex; gap: 10px; }
+.paint-actions .pill-btn { flex: 1; background: #fff; color: #1b1d22; border: 1.5px solid #d7dade; }
+.paint-actions .pill-btn:hover { border-color: #9aa0a8; }
+
+/* Clinic-style pain-diagram: line-art FRONT and BACK human figures */
+.body-figures {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.body-figure { margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.body-figure-cap {
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--ink-2);
+  text-transform: uppercase;
+}
+.body-figure-host {
+  border-radius: var(--radius);
+  background: #fff;
+  border: 1px solid #d7dade;
+  padding: 8px;
+}
+.body-figure-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 64vh;
+  cursor: crosshair;
+  /* none = the brush owns the gesture: dragging on the figure paints instead of
+     scrolling/zooming the page. Normal scrolling works everywhere else. */
+  touch-action: none;
+  overscroll-behavior: contain;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.body-figure-svg:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+/* Transparent full-bleed surface that captures taps anywhere on the figure. */
+.fig-surface { fill: transparent; }
+/* Uploaded detailed body template, drawn as the visible body beneath the
+   (now invisible) hand-authored outline. Aligned to the hit-zone coordinates. */
+.fig-template { pointer-events: none; }
+/* The hand-authored silhouette is kept for structure/coordinate reference but
+   is no longer the visible body — the bitmap template renders that. */
+.fig-outline { fill: none; stroke: none; }
+.fig-guide { fill: none; stroke: none; }
+
+/* Painted marks = continuous translucent brush strokes in the selected symptom
+   color (no symbols/letters). One <polyline> per drag (round caps/joins) or a
+   round dot for a tap. Color is applied inline per stroke; opacity here keeps
+   overlapping strokes / mixed-symptom areas readable. */
+.fig-mark-layer { pointer-events: none; }
+.fig-mark-layer .mark-stroke { opacity: 0.62; }
+.fig-mark-layer .mark-dot { opacity: 0.62; }
+
+/* Weakness action chips (weakness is an action, not a body place) */
+.body-weakness-wrap { display: flex; flex-direction: column; gap: 8px; }
+.body-weakness-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.body-action-chip {
+  appearance: none;
+  text-align: left;
+  border: 1.5px solid var(--hairline-strong);
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 9px 11px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  transition: background 0.2s var(--ease), border-color 0.2s var(--ease), transform 0.2s var(--spring);
+}
+.body-action-chip:hover { transform: translateY(-1px); }
+.body-action-label { font-size: 0.84rem; font-weight: 600; color: var(--ink); }
+.body-action-hint { font-size: 0.72rem; color: var(--ink-3); }
+.body-action-chip.is-selected {
+  background: var(--brush-weakness-soft);
+  border-color: var(--brush-weakness);
+}
+.body-action-chip.is-selected .body-action-label { color: var(--brush-weakness); }
+
+.paint-figure-caption { font-size: 0.78rem; color: var(--ink-3); margin: 0; }
+.paint-disclaimer { margin: 0; }
+
+@media (max-width: 540px) {
+  /* Stack the figures so each body stays large and tappable on phones */
+  .body-figures { grid-template-columns: 1fr; }
+  .body-figure-svg { max-height: none; }
+}
+@media (max-width: 420px) {
+  .body-weakness-actions { grid-template-columns: 1fr; }
+}
+
+/* Evidence chips reuse existing .symptom-evidence styling */
+
+/* ============================================================
+   Guided symptom flow (patient pain-drawing experience)
+   Phases: intro (region cards) -> paint (figure + tools) -> reveal
+   Mobile/tablet first; tap targets >= 44px; reuses design tokens.
+   ============================================================ */
+.symptom-guide {
+  max-width: 760px;
+  margin: 0 auto;
+}
+.guide-phase[hidden] { display: none; }
+
+/* Shared prompt header for each phase */
+.guide-prompt { text-align: center; margin: 4px auto 22px; max-width: 560px; }
+.guide-headline {
+  font-size: clamp(1.5rem, 4.5vw, 2.1rem);
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  margin: 6px 0 0;
+  color: var(--ink);
+}
+.guide-subtle {
+  margin: 10px 0 0;
+  color: var(--ink-2);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+.guide-disclaimer {
+  margin: 22px auto 0;
+  max-width: 520px;
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--ink-3);
+  line-height: 1.45;
+}
+
+/* ---------- Phase 1 · region cards ---------- */
+.region-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+}
+.region-cards .region-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-height: 84px;
+  padding: 18px 18px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius);
+  background: var(--surface-strong);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.2s var(--spring), border-color 0.2s var(--ease),
+    box-shadow 0.2s var(--ease);
+}
+.region-cards .region-card:hover { border-color: var(--accent-ring); }
+.region-cards .region-card:active { transform: scale(0.98); }
+.region-cards .region-card:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-ring);
+}
+.region-card-label { font-size: 1.12rem; font-weight: 600; letter-spacing: -0.01em; }
+.region-card-sub { font-size: 0.86rem; color: var(--ink-3); line-height: 1.35; }
+
+/* "Back to body areas" link shown during the Arm/Leg -> Hand/Foot sub-step. */
+.region-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  padding: 8px 4px;
+  min-height: 44px;
+  border: none;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+.region-back-link::before { content: "‹"; font-size: 1.2em; line-height: 1; }
+.region-back-link:hover { text-decoration: underline; }
+.region-back-link:focus-visible {
+  outline: none;
+  border-radius: 8px;
+  box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+/* ---------- Phase 2 · drawing stage (floating side palette + diagrams) ---------- */
+/* The palette is an Apple-Notes-style vertical tool rail that floats to the RIGHT
+   of the diagrams and sticks while the tall diagram column scrolls. It lives in
+   its own column so it never covers the body anatomy (the diagram column gets a
+   right gutter to make room). Layout is two-column at every width; on mobile the
+   rail is a compact icon-only rail (labels are aria-only). */
+.guide-stage {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
+  gap: clamp(10px, 2.5vw, 36px);
+  width: 100%;
+}
+.guide-palette {
+  position: sticky;
+  top: calc(var(--nav-h) + 8px);
+  z-index: 40;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  /* The whole dock is height-capped to the viewport (minus the sticky offset and
+     a small gap) so every control — including Complete pinned at the bottom —
+     stays on screen at common heights without scrolling the page. */
+  max-height: calc(100vh - var(--nav-h) - 18px);
+  padding: 9px;
+  /* A tall container needs a rounded-RECT radius, not a pill/stadium radius:
+     a pill radius curves the top/bottom ends inward so the rectangular chips'
+     corners poke outside the container. Use a moderate corner radius instead. */
+  border-radius: 22px;
+  background: color-mix(in srgb, var(--surface-strong) 90%, transparent);
+  backdrop-filter: blur(16px) saturate(var(--glass-sat));
+  -webkit-backdrop-filter: blur(16px) saturate(var(--glass-sat));
+  border: 1px solid var(--hairline);
+  box-shadow: var(--shadow-1, 0 8px 24px rgba(15, 23, 42, 0.1));
+}
+.guide-palette-label {
+  margin: 0 0 7px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-align: center;
+  flex: none;
+}
+.guide-stage .guide-figure { flex: 1 1 auto; min-width: 0; margin: 0 auto; }
+
+/* ---------- Phase 2 · color symptom tools ---------- */
+.guide-tools {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 auto 18px;
+}
+.symptom-tool {
+  --tool-color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 8px 16px 8px 12px;
+  border: 1.5px solid var(--hairline-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-strong);
+  color: var(--ink);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.18s var(--ease), background 0.18s var(--ease),
+    transform 0.18s var(--spring);
+}
+.symptom-tool:active { transform: scale(0.97); }
+.symptom-tool:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-ring);
+}
+.symptom-tool-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--tool-color);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tool-color) 22%, transparent);
+  flex: none;
+}
+.symptom-tool.is-active {
+  border-color: var(--tool-color);
+  border-width: 2px;
+  background: color-mix(in srgb, var(--tool-color) 12%, var(--surface-strong));
+  font-weight: 620;
+  padding-left: 11px;
+}
+.symptom-tool.is-active .symptom-tool-dot {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tool-color) 40%, transparent);
+}
+/* Checkmark inside the swatch — a non-color-only cue for the selected chip. */
+.symptom-tool.is-active .symptom-tool-dot {
+  position: relative;
+}
+.symptom-tool.is-active .symptom-tool-dot::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 2.5px;
+  width: 4px;
+  height: 7px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* ---------- Phase 2 · focused figure ---------- */
+/* The figure is the centerpiece — make it feel like an enlarged iPad pain
+   drawing. #guide-figure lays out one or two .guide-figure-card columns in a
+   grid; each card sizes its SVG by HEIGHT so the cropped limb fills the frame
+   regardless of the crop's aspect ratio. --fig-h is the target figure height. */
+/* Panels stack top-to-bottom: whole-limb view(s) first, then the enlarged
+   hand/foot detail underneath, each under its own section heading. */
+.guide-figure {
+  --fig-h: 54vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+}
+.guide-figure-section {
+  align-self: stretch;
+  margin: 6px 0 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-align: center;
+}
+.guide-figure-card { width: 100%; max-width: 460px; }
+.guide-figure-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+  padding: 14px 8px;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+}
+.guide-figure-host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+}
+.guide-figure-cap {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.guide-figure-host .body-figure-svg {
+  height: var(--fig-h);
+  max-width: 100%;
+  width: auto;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+/* ---------- Phase 2 · action bar ---------- */
+.guide-paint-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+.guide-paint-bar-left {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+/* Override the global full-width .pill-btn for the inline secondary actions */
+.guide-paint-bar .pill-btn,
+.guide-reveal-actions .pill-btn {
+  margin-top: 0;
+  width: auto;
+  min-height: 44px;
+  padding: 11px 18px;
+}
+.guide-mark-count { font-size: 0.85rem; color: var(--ink-3); }
+
+/* ---------- Phase 2 · floating side palette (chips are vertical) ---------- */
+/* The palette always stacks its chips vertically (it's a side rail). The chips +
+   action group form the scrollable MIDDLE of the dock: if the brush list is too
+   tall for the viewport, only this area scrolls — the label stays at top and the
+   Complete foot stays pinned at the bottom. */
+.guide-palette .guide-tools {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 6px;
+  margin: 0;
+}
+.guide-palette .symptom-tool {
+  width: 100%;
+  justify-content: flex-start;
+  min-height: 38px;
+  padding: 6px 14px 6px 11px;
+  font-size: 0.9rem;
+}
+.guide-palette .symptom-tool-dot { width: 14px; height: 14px; }
+
+/* Foot of the dock: a compact mark counter + the primary Complete CTA, pinned
+   below the scrollable tools so Complete is always reachable without page scroll.
+   The CTA uses the shared --accent token so it renders in Brown teal here. */
+.palette-foot {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  margin-top: 9px;
+  padding-top: 9px;
+  border-top: 1px solid var(--hairline-strong);
+}
+.palette-foot .guide-mark-count { text-align: center; }
+.palette-foot .guide-mark-count:empty { display: none; }
+.palette-foot .cta-btn.guide-complete {
+  width: 100%;
+  min-height: 44px;
+  padding: 11px 16px;
+  font-size: 0.95rem;
+}
+
+/* Drawing tools (Eraser/Undo/Clear) live in the brush palette below the color
+   chips, separated by a hairline. Colors come from shared tokens so the teal
+   accent applies in the Brown clone automatically; only the destructive Clear
+   button uses a hardcoded red cue. */
+.palette-actions { display:flex; flex-direction:column; align-items:stretch; gap:6px; margin-top:8px; padding-top:8px; border-top:1px solid var(--hairline-strong); }
+.palette-action { display:inline-flex; align-items:center; gap:9px; width:100%; min-height:38px; padding:7px 13px; border:1.5px solid var(--hairline-strong); border-radius:var(--radius-pill); background:var(--surface-strong); color:var(--ink); font-size:0.92rem; font-weight:540; cursor:pointer; transition:border-color .18s var(--ease), background .18s var(--ease), color .18s var(--ease), transform .18s var(--spring); }
+.palette-action:hover { border-color:var(--accent-ring); background:var(--accent-soft); }
+.palette-action:active { transform:scale(0.97); }
+.palette-action:focus-visible { outline:none; box-shadow:0 0 0 3px var(--accent-ring); }
+.palette-action-ico { display:inline-flex; flex:none; color:var(--ink-2, var(--ink-3)); }
+.palette-action:hover .palette-action-ico { color:var(--accent); }
+.palette-action-name { white-space:nowrap; }
+.palette-action.erase-tool.is-active { border-color:var(--accent); border-width:2px; background:var(--accent-soft); color:var(--accent); font-weight:640; }
+.palette-action.erase-tool.is-active .palette-action-ico { color:var(--accent); }
+.palette-action-danger:hover { border-color:color-mix(in srgb, #e53935 50%, transparent); background:color-mix(in srgb, #e53935 8%, var(--surface-strong)); color:#c62828; }
+.palette-action-danger:hover .palette-action-ico { color:#c62828; }
+.palette-action-danger.is-armed { border-color:#e53935; border-width:2px; background:color-mix(in srgb, #e53935 12%, var(--surface-strong)); color:#c62828; font-weight:640; }
+.palette-action-danger.is-armed .palette-action-ico { color:#c62828; }
+#guide-figure[data-tool="erase"] .body-figure-svg { cursor: cell; }
+
+/* Desktop/tablet: comfortable rail with visible labels. */
+@media (min-width: 700px) {
+  .guide-palette { width: 184px; }
+}
+
+/* Mobile/narrow (Apple-Notes-style): the rail FLOATS over the right gutter
+   (out of the layout column) so the diagram card spans the full stage width and
+   the body images stay large. The figure cards reserve a right inset equal to
+   the rail so anatomy never sits under it; card padding/radius are trimmed to
+   give the image maximum room. */
+@media (max-width: 699px) {
+  body { --rail-w: 46px; }
+  .guide-stage {
+    display: block;          /* rail is positioned, not a flex column */
+    position: relative;
+  }
+  .guide-stage .guide-figure { margin: 0; width: 100%; }
+
+  .guide-palette {
+    position: sticky;
+    top: calc(var(--nav-h) + 10px);
+    float: right;            /* sits in the right gutter, out of the card's flow */
+    margin-left: 8px;
+    margin-bottom: 8px;
+    padding: 7px;
+    border-radius: 26px;
+    /* On the narrow floating rail the brush list is short; let it size to content
+       so the dock hugs its chips instead of stretching to the viewport. */
+    max-height: calc(100vh - var(--nav-h) - 22px);
+  }
+  .guide-palette-label { display: none; }
+  .guide-palette .guide-tools { gap: 7px; }
+  .guide-palette .symptom-tool {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    padding: 0;
+    justify-content: center;
+    gap: 0;
+    border-radius: 50%;
+  }
+  .guide-palette .symptom-tool .symptom-tool-name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .guide-palette .symptom-tool-dot { width: 18px; height: 18px; }
+
+  /* Collapse the tool actions to the same 40px round icon-only targets as the
+     color circles (no labels on mobile; icon + red carry meaning). */
+  .palette-actions { margin-top:7px; padding-top:7px; gap:7px; }
+  .palette-action { width:40px; min-width:40px; height:40px; padding:0; justify-content:center; gap:0; border-radius:50%; }
+  .palette-action .palette-action-name { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+
+  /* The foot collapses to match the icon rail: hide the text counter and shrink
+     Complete to a 40px round checkmark button (text replaced by a glyph) so it
+     fits the narrow gutter while staying pinned at the dock bottom. */
+  .palette-foot { margin-top:7px; padding-top:7px; align-items:center; }
+  .palette-foot .guide-mark-count { display:none; }
+  .palette-foot .cta-btn.guide-complete { width:40px; min-width:40px; height:40px; min-height:40px; padding:0; border-radius:50%; font-size:0; }
+  .palette-foot .cta-btn.guide-complete::before { content:"\2713"; font-size:1.25rem; line-height:1; }
+
+  /* Diagram cards span full width; reserve a right inset for the floating rail
+     and trim padding so the body image fills more of the card. */
+  .guide-figure-card {
+    max-width: none;
+    padding: 12px 6px;
+    padding-right: calc(var(--rail-w) + 14px);
+  }
+  .guide-figure-section { padding-right: calc(var(--rail-w) + 6px); }
+}
+
+/* Polished primary CTA (the app references .cta-btn but never styled a base) */
+.cta-btn {
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  min-height: 48px;
+  padding: 13px 26px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--accent-on);
+  font-family: var(--font-text);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 122, 255, 0.28);
+  transition: transform 0.15s var(--spring), box-shadow 0.2s var(--ease),
+    background 0.2s var(--ease), opacity 0.2s var(--ease);
+}
+.cta-btn:hover { background: var(--accent-strong); box-shadow: 0 8px 24px rgba(0, 122, 255, 0.34); }
+.cta-btn:active { transform: scale(0.98); }
+.cta-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--accent-ring); }
+.cta-btn[disabled],
+.cta-btn[aria-disabled="true"] {
+  background: var(--bg-tint-2);
+  color: var(--ink-3);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* ---------- Phase 3 · reveal ---------- */
+.guide-result { transform: none; }
+.guide-result.is-entering {
+  animation: guide-reveal-rise 560ms var(--ease) both;
+}
+@keyframes guide-reveal-rise {
+  from { opacity: 0; transform: translateY(18px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.reveal-roots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 18px;
+}
+.reveal-roots[hidden] { display: none; }
+.reveal-root-chip {
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  min-height: 44px;
+  padding: 6px 18px;
+  border-radius: 999px;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface-strong));
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+}
+.reveal-root-chip:hover {
+  background: color-mix(in srgb, var(--accent) 18%, var(--surface-strong));
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+}
+.reveal-root-chip:active { transform: scale(0.97); }
+.reveal-root-chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.reveal-root-chip.is-active {
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.reveal-root-chip.is-active:hover {
+  background: color-mix(in srgb, var(--accent) 90%, #000);
+}
+
+.reveal-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.reveal-card {
+  padding: 20px 22px;
+  border-radius: var(--radius-lg);
+  background: var(--surface-strong);
+  border: 1px solid var(--hairline-strong);
+}
+.reveal-card.is-primary {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 7%, var(--surface-strong));
+  box-shadow: 0 8px 30px rgba(0, 122, 255, 0.12);
+}
+.reveal-card.is-empty { color: var(--ink-2); line-height: 1.5; }
+.reveal-card-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.reveal-kicker {
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.reveal-root {
+  font-size: clamp(1.8rem, 6vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  line-height: 1;
+}
+.reveal-card.is-secondary .reveal-root { color: var(--ink); font-size: clamp(1.4rem, 5vw, 1.8rem); }
+.reveal-why {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 0 4px;
+}
+.reveal-why-label { font-size: 0.85rem; color: var(--ink-2); margin-right: 2px; }
+.why-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 11px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+/* Compact labeled rows instead of paragraph blocks */
+.reveal-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 14px;
+}
+.reveal-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
+}
+.reveal-row-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.reveal-row-text { font-size: 0.92rem; line-height: 1.45; color: var(--ink); }
+
+/* Secondary result is a softened, collapsible details so it doesn't dominate */
+details.reveal-card.is-secondary {
+  background: var(--surface);
+  border-color: var(--hairline);
+  padding: 0;
+}
+.reveal-secondary-summary {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 16px 20px;
+  cursor: pointer;
+  list-style: none;
+}
+.reveal-secondary-summary::-webkit-details-marker { display: none; }
+.reveal-secondary-cue {
+  margin-left: auto;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+details[open] .reveal-secondary-cue::after { content: ""; }
+.reveal-secondary-body { padding: 0 20px 18px; }
+.guide-reveal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.guide-copy-status {
+  margin: 10px auto 0;
+  max-width: 460px;
+  text-align: center;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--ink-3);
+}
+.guide-copy-status:empty { display: none; }
+.guide-copy-status[data-kind="ok"] { color: var(--accent); }
+.guide-copy-status[data-kind="error"] { color: #c0392b; }
+
+/* Keep the action bar and reveal actions clear of the bottom tab bar on the
+   viewports where the tab bar is shown (< 900px). */
+@media (max-width: 899px) {
+  .symptom-guide { padding-bottom: calc(var(--tab-h) + 24px + env(safe-area-inset-bottom, 0)); }
+}
+
+/* Tablet: a touch taller per panel */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .guide-figure { --fig-h: 58vh; }
+}
+/* Desktop: cap width so the stacked panels stay a comfortable reading size */
+@media (min-width: 1025px) {
+  .guide-figure { --fig-h: 56vh; max-width: 520px; margin: 0 auto; }
+}
+
+@media (max-width: 600px) {
+  .region-cards { grid-template-columns: 1fr; }
+  .guide-figure {
+    --fig-h: 48vh;
+    gap: 12px;
+  }
+  /* Complete now lives in the floating dock; this bar holds only "Change area". */
+  .guide-paint-bar { justify-content: center; gap: 10px; }
+  .guide-paint-bar-left { justify-content: center; }
+  .guide-reveal-actions { flex-direction: column-reverse; align-items: stretch; }
+  .guide-reveal-actions .cta-btn,
+  .guide-reveal-actions .pill-btn { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .region-card,
+  .symptom-tool,
+  .cta-btn { transition: none; }
+  .guide-result.is-entering { animation: none; }
+  .home-start-btn { transition: none; }
+}
+
+/* ===================================================================
+   Home — patient-first hero (Symptom Drawing is the main feature)
+   =================================================================== */
+.home-hero {
+  margin: clamp(8px, 3vw, 28px) 0 clamp(28px, 5vw, 44px);
+}
+.home-hero-copy { max-width: 44ch; }
+.home-hero-title { max-width: 14ch; }
+.home-hero-lede { max-width: 52ch; margin-bottom: 22px; }
+.home-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+}
+.home-start-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.06rem;
+  padding: 15px 28px;
+}
+.home-start-btn svg { flex: none; }
+.home-hero-hint { font-size: 13px; color: var(--ink-3); }
+
+.home-learn { margin-top: clamp(20px, 4vw, 34px); }
+.home-learn-head { margin-bottom: 16px; }
+.home-learn-title {
+  font-family: var(--font-display);
+  font-weight: 680;
+  font-size: clamp(19px, 2.6vw, 24px);
+  letter-spacing: -0.02em;
+  margin: 0 0 6px;
+}
+.home-learn-sub {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  margin: 0;
+  max-width: 64ch;
+}
+
+/* Home hero — right-side workflow preview */
+.home-hero-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: clamp(20px, 2.4vw, 30px);
+  border-radius: var(--radius-lg);
+}
+.preview-figure {
+  position: relative;
+  width: min(150px, 58%);
+  /* Crop to the upper body (head → mid-thigh) so the mini-figure reads cleanly. */
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  margin: 2px auto 0;
+}
+.preview-body {
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 0.9;
+}
+.preview-dab {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--c);
+  opacity: 0.62;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--c) 20%, transparent);
+  transform: translate(-50%, -50%);
+}
+/* Positions tuned to land on the anterior figure (head→thigh crop). */
+.preview-dab-1 { left: 30%; top: 40%; }
+.preview-dab-2 { left: 34%; top: 47%; width: 11px; height: 11px; }
+.preview-dab-3 { left: 67%; top: 30%; }
+.preview-dab-4 { left: 24%; top: 60%; width: 10px; height: 10px; }
+.preview-dab-5 { left: 60%; top: 66%; width: 12px; height: 12px; }
+.preview-caption {
+  margin: 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 560;
+  color: var(--ink-2);
+  max-width: 26ch;
+}
+.preview-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+.preview-steps li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+  color: var(--ink-2);
+}
+.preview-step-n {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 680;
+}
+
+@media (min-width: 880px) {
+  .home-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+    align-items: center;
+    gap: clamp(28px, 5vw, 64px);
+  }
+  .home-hero-preview { align-self: center; }
+}
+
+@media (max-width: 879px) {
+  .home-hero-preview {
+    margin-top: clamp(20px, 4vw, 28px);
+    max-width: 420px;
+  }
+  .preview-steps { max-width: 320px; margin: 0 auto; }
+}
+
+@media (max-width: 600px) {
+  .home-hero-actions { align-items: stretch; }
+  .home-start-btn { width: 100%; justify-content: center; }
+  .home-hero-hint { text-align: center; }
+  .preview-figure { width: 130px; }
+}

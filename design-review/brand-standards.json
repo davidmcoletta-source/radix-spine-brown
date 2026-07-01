@@ -1,0 +1,117 @@
+{
+  "source": "Brown University Health Brand Guide v1.0, October 2024",
+  "authoritySource": "space_files/LS1002_BrownUniversityHealth_visualguidelines_update_100924.pdf",
+  "conflictResolution": "PDF wins over local tokens",
+  "colors": {
+    "primary": {
+      "emerald":      { "hex": "#00B398", "role": "primary accent, used in emblem 'Health' wordmark, CTAs on light bg", "web": true },
+      "darkEmerald":  { "hex": "#003337", "role": "primary dark surface, headers, hero backgrounds", "web": true },
+      "lightEmerald": { "hex": "#99E1D6", "role": "accent, badges, decorative", "web": true },
+      "white":        { "hex": "#FFFFFF", "role": "primary background" }
+    },
+    "webVariants": {
+      "brandEmerald":       { "hex": "#25A685", "note": "web-accessible substitute for primary Emerald" },
+      "richEmerald":        { "hex": "#1C8269", "note": "H2 headers, accessible hyperlink/emphasis" },
+      "brandLightEmerald":  { "hex": "#8EDCCC", "note": "web substitute for Light Emerald" },
+      "darkEmeraldAccessible": { "hex": "#2E585D", "note": "H4/small dark text alt" },
+      "lightGray":          { "hex": "#F0EFEF", "note": "web light gray" },
+      "paleEmerald":        { "hex": "#E8F8F4", "note": "additional pale background tint (PDF shows partial 'E88' — full value from house web palette)" }
+    },
+    "secondary": {
+      "bayBlue":   { "hex": "#00244B" },
+      "riverBlue": { "hex": "#1D9ABC" },
+      "skyBlue":   { "hex": "#C2E4F7" }
+    },
+    "tertiary": {
+      "sand":       { "hex": "#FCF5DF" },
+      "rose":       { "hex": "#FBDDD9" },
+      "lightGray":  { "hex": "#EAEDEF" },
+      "mediumGray": { "hex": "#98A4AE" },
+      "black":      { "hex": "#000000" }
+    },
+    "forbidden": {
+      "brownRed": {
+        "hex": "#ED1C24",
+        "rule": "Brown University Red is ONLY permitted inside the Brown Coat of Arms. NEVER used anywhere else in Brown University Health visuals."
+      }
+    },
+    "approvedTypeOnBackground": [
+      { "bg": "#003337", "text": "#FFFFFF", "note": "Dark Emerald + White" },
+      { "bg": "#003337", "text": "#99E1D6", "note": "Dark Emerald + Light Emerald" },
+      { "bg": "#003337", "text": "#FCF5DF", "note": "Dark Emerald + Sand" },
+      { "bg": "#00B398", "text": "#003337", "note": "Emerald + Dark Emerald" },
+      { "bg": "#FFFFFF", "text": "#003337", "note": "White + Dark Emerald" },
+      { "bg": "#FCF5DF", "text": "#003337", "note": "Sand + Dark Emerald" },
+      { "bg": "#99E1D6", "text": "#003337", "note": "Light Emerald + Dark Emerald" },
+      { "bg": "#FBDDD9", "text": "#00244B", "note": "Rose + Bay Blue" },
+      { "bg": "#00244B", "text": "#FBDDD9", "note": "Bay Blue + Rose" },
+      { "bg": "#C2E4F7", "text": "#00244B", "note": "Sky Blue + Bay Blue" }
+    ]
+  },
+  "typography": {
+    "print": {
+      "headline":  { "family": "Effra CC",     "weights": ["Regular", "Medium", "Semi-bold", "Light for very large"] },
+      "body":      { "family": "Portada Text", "weights": ["Regular", "Semi-bold", "Bold"] }
+    },
+    "web": {
+      "headline": {
+        "family": "Raleway",
+        "note": "PDF: 'For web applications the typeface Raleway is used as a replacement for Effra. The same typographic rules apply.'",
+        "hierarchy": {
+          "h1": { "family": "Raleway", "weight": "Bold", "size": "48pt", "color": "#000000" },
+          "h2": { "family": "Raleway", "weight": "Bold", "size": "32pt", "color": "#1C8269" },
+          "h3": { "family": "Raleway", "weight": "Bold", "size": "26pt", "color": "#000000" },
+          "h4": { "family": "Raleway", "weight": "Bold", "size": "20pt", "color": "#2E585D" }
+        }
+      },
+      "body": {
+        "family": "Raleway or Portada Text",
+        "note": "PDF header-block sample uses Raleway body at 16pt / 28pt leading, black.",
+        "sample":  { "family": "Raleway", "weight": "Regular", "size": "16pt", "leading": "28pt", "color": "#000000" }
+      }
+    },
+    "hierarchyRule": "Body copy should be white or black depending on the darkness of the background.",
+    "tracking": "0 to 20 units",
+    "leadingHeadlines": "100–150% of point size",
+    "leadingBody": "100–200% of point size"
+  },
+  "logo": {
+    "masterBrand": "Brown University Coat of Arms + Brown University Health wordmark — must always be used together",
+    "clearSpace": "Exclusion zone equal to the height of the words 'Brown Health' on all sides. No typography, imagery, or graphic elements inside this zone.",
+    "minSize": {
+      "digital": "COA (Coat of Arms) minimum height 50px",
+      "print":   "COA minimum height 0.5 inches"
+    },
+    "misuse": [
+      "Do not change letter spacing",
+      "Do not alter approved colors",
+      "Do not deconstruct or rearrange elements",
+      "Do not add drop shadows or effects",
+      "Do not place on busy backgrounds",
+      "Do not place on an angle",
+      "Do not distort proportions",
+      "Do not change the typeface",
+      "Do not add an outline"
+    ]
+  },
+  "cta": {
+    "primaryPillOnLight": {
+      "background": "#25A685 (brand emerald)",
+      "text": "#FFFFFF",
+      "shape": "pill",
+      "hoverState": "darker emerald"
+    },
+    "secondaryOnLight": {
+      "background": "transparent with #003337 border",
+      "text": "#003337"
+    },
+    "onDark": {
+      "primary":   { "background": "#8EDCCC or #FFFFFF", "text": "#003337" },
+      "secondary": { "background": "transparent", "border": "#FFFFFF", "text": "#FFFFFF" }
+    }
+  },
+  "layout": {
+    "whitespace": "Balance use of white space with brand colors. Designs must not feel too dark.",
+    "hierarchy": "Clear messaging hierarchy required. Photos used boldly."
+  }
+}

@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Norman Prince Spine Institute — Nerve Root Localizer | Brown University Health</title>
+<meta name="description" content="Interactive educational tool from the Norman Prince Spine Institute at Brown University Health correlating cervical, thoracic, and lumbar/sacral disc levels with nerve root, dermatome, myotome, reflex, bedside clues, and patient symptom patterns. Not medical advice." />
+<meta name="theme-color" content="#ffffff" />
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23ed1c24'/><rect x='10' y='5' width='9.5' height='5.4' rx='2' stroke='white' stroke-width='1.9' fill='none'/><rect x='10' y='13.3' width='9.5' height='5.4' rx='2' stroke='white' stroke-width='1.9' fill='none'/><rect x='10' y='21.6' width='9.5' height='5.4' rx='2' stroke='white' stroke-width='1.9' fill='none'/><path d='M19.5 12c3.4.4 5.2 2.4 5.9 5.7' stroke='white' stroke-width='1.9' stroke-linecap='round' fill='none'/><circle cx='25.8' cy='20.4' r='1.5' fill='white'/></svg>" />
+<link rel="stylesheet" href="./styles.css?v=brown6" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- Desktop / top glass navigation -->
+<header class="nav-bar" id="nav-bar">
+  <div class="nav-inner">
+    <button class="brand" type="button" aria-label="Brown University Health — Norman Prince Spine Institute — home" data-open-page="landing">
+      <img class="brand-logo" src="./assets/brown-norman-prince-spine-logo.png?v=brown3" alt="Brown University Health — Norman Prince Spine Institute" width="220" height="68" decoding="async" />
+      <span class="brand-sub brand-sub-tool">Nerve Root Localizer</span>
+    </button>
+
+    <nav class="nav-links" aria-label="Primary">
+      <button type="button" class="nav-link is-active" data-open-page="landing" data-testid="link-home">Home</button>
+      <button type="button" class="nav-link" data-open-page="symptom" data-testid="link-symptom">Symptom Drawing</button>
+      <button type="button" class="nav-link" data-open-page="cervical" data-testid="link-cervical">Cervical</button>
+      <button type="button" class="nav-link" data-open-page="thoracic" data-testid="link-thoracic">Thoracic</button>
+      <button type="button" class="nav-link" data-open-page="lumbar" data-testid="link-lumbar">Lumbar/Sacral</button>
+      <button type="button" class="nav-link" data-open-page="sources" data-testid="link-sources">Sources</button>
+    </nav>
+
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ HOME ============ -->
+  <section class="page page-landing" data-page="landing">
+    <div class="container">
+      <div class="home-hero">
+        <div class="home-hero-copy">
+          <p class="eyebrow">Pain drawing</p>
+          <h1 class="large-title home-hero-title">Show where it hurts.</h1>
+          <p class="lede home-hero-lede">
+            Draw your symptoms on a simple body picture — pick an area, mark where it aches, burns,
+            or feels numb, then tap Complete. We'll point to the one nerve root that pattern most
+            often fits, in plain language, as a starting point for a conversation with a clinician.
+          </p>
+          <div class="home-hero-actions">
+            <button type="button" class="cta-btn home-start-btn" data-open-page="symptom" data-testid="button-start-drawing">
+              <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"/><path d="M14.5 5.5l3 3"/></svg>
+              Start drawing
+            </button>
+            <span class="home-hero-hint">Takes about a minute · nothing is saved</span>
+          </div>
+        </div>
+
+        <aside class="home-hero-preview glass" aria-hidden="true">
+          <div class="preview-figure">
+            <img class="preview-body" src="./assets/body-templates/body-anterior.png?v=tpl3" alt="" width="460" height="690" loading="eager" decoding="async" />
+            <span class="preview-dab preview-dab-1" style="--c:#2e74e4"></span>
+            <span class="preview-dab preview-dab-2" style="--c:#2e74e4"></span>
+            <span class="preview-dab preview-dab-3" style="--c:#e8821e"></span>
+            <span class="preview-dab preview-dab-4" style="--c:#17a2b8"></span>
+            <span class="preview-dab preview-dab-5" style="--c:#e4572e"></span>
+          </div>
+          <p class="preview-caption">Paint pain, numbness, burning, or weakness</p>
+          <ol class="preview-steps">
+            <li><span class="preview-step-n">1</span> Choose an area</li>
+            <li><span class="preview-step-n">2</span> Paint symptoms</li>
+            <li><span class="preview-step-n">3</span> Review likely pattern</li>
+          </ol>
+        </aside>
+      </div>
+
+      <div class="home-learn">
+        <div class="home-learn-head">
+          <h2 class="home-learn-title">Learn by spine region</h2>
+          <p class="home-learn-sub">Reference pages for clinicians — disc levels, nerve roots, dermatomes, motor and reflex findings.</p>
+        </div>
+        <div class="region-grid region-grid-learn" aria-label="Spine region reference pages">
+          <button type="button" class="region-card glass" data-open-page="cervical" data-testid="button-launch-cervical">
+            <span class="region-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="8.75" y="3.4" width="6.5" height="4.7" rx="1.8" fill="currentColor" stroke="none"/><rect x="8.75" y="9.65" width="6.5" height="4.7" rx="1.8"/><rect x="8.75" y="15.9" width="6.5" height="4.7" rx="1.8"/></svg></span>
+            <span class="region-kicker">Upper extremity</span>
+            <span class="region-title">Cervical</span>
+            <span class="region-copy">C3–C4 through C7–T1 disc levels mapped to C4–C8 roots, with arm and hand findings.</span>
+            <span class="region-chevron" aria-hidden="true">›</span>
+          </button>
+          <button type="button" class="region-card glass" data-open-page="thoracic" data-testid="button-launch-thoracic">
+            <span class="region-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="8.75" y="3.4" width="6.5" height="4.7" rx="1.8"/><rect x="8.75" y="9.65" width="6.5" height="4.7" rx="1.8" fill="currentColor" stroke="none"/><rect x="8.75" y="15.9" width="6.5" height="4.7" rx="1.8"/></svg></span>
+            <span class="region-kicker">Chest · abdominal wall</span>
+            <span class="region-title">Thoracic</span>
+            <span class="region-copy">T1–T2 through T12–L1 levels mapped to band-like dermatomal sensory patterns and trunk findings.</span>
+            <span class="region-chevron" aria-hidden="true">›</span>
+          </button>
+          <button type="button" class="region-card glass" data-open-page="lumbar" data-testid="button-launch-lumbar">
+            <span class="region-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="8.75" y="3.4" width="6.5" height="4.7" rx="1.8"/><rect x="8.75" y="9.65" width="6.5" height="4.7" rx="1.8"/><rect x="8.75" y="15.9" width="6.5" height="4.7" rx="1.8" fill="currentColor" stroke="none"/></svg></span>
+            <span class="region-kicker">Lower extremity · sacral</span>
+            <span class="region-title">Lumbar/Sacral</span>
+            <span class="region-copy">L1–L2 through L5–S1 disc levels with morphology-sensitive traversing versus exiting root logic.</span>
+            <span class="region-chevron" aria-hidden="true">›</span>
+          </button>
+        </div>
+      </div>
+
+      <p class="hero-note glass-subtle">
+        Educational tool only. Use as a pattern-recognition aid and correlate with the exam,
+        imaging, and red flags.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ CERVICAL ============ -->
+  <section class="page" data-page="cervical" hidden>
+    <div class="container">
+      <div class="page-intro">
+        <p class="eyebrow">Cervical · Upper-extremity pattern aid</p>
+        <h1 class="large-title">Cervical disc level → exiting root.</h1>
+        <p class="lede">
+          In the cervical spine, disc-level naming maps differently than lumbar levels:
+          a C5–C6 disc lesion most classically affects the <strong>C6</strong> root, a
+          C6–C7 lesion affects <strong>C7</strong>, and C7–T1 affects <strong>C8</strong>.
+        </p>
+      </div>
+
+      <div class="region-layout">
+        <aside class="controls glass" aria-labelledby="cervical-controls-heading">
+          <h2 id="cervical-controls-heading" class="section-title">Select cervical disc level</h2>
+          <div class="segmented cervical-levels" role="radiogroup" aria-label="Cervical disc level"></div>
+
+          <div class="rule-card">
+            <h3>Cervical naming rule</h3>
+            <p>
+              Cervical roots C1–C7 exit above their corresponding vertebrae, while C8 exits
+              between C7 and T1. Clinically, subaxial disc lesions are usually described by
+              the lower exiting root at that disc level.
+            </p>
+            <p class="why-example" data-testid="text-cervical-rule-example">
+              <span class="why-pill">Example</span>
+              A C6–C7 disc lesion most classically causes <strong>C7</strong> radiculopathy.
+            </p>
+          </div>
+        </aside>
+
+        <div class="readout" aria-live="polite">
+          <div class="readout-head glass">
+            <div>
+              <span class="readout-eyebrow">Selected cervical level</span>
+              <h2 class="readout-title" data-testid="text-cervical-selected-level">C6–C7</h2>
+            </div>
+            <div class="root-chip">
+              <span class="root-chip-label">Affected root</span>
+              <span class="root-chip-value" id="cervical-affected-root">C7</span>
+              <span class="root-chip-morph">exiting cervical root</span>
+            </div>
+          </div>
+
+          <div class="deficit-list glass" role="list">
+            <div class="deficit-row" role="listitem">
+              <span class="deficit-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.6-7-11a7 7 0 0114 0c0 6.4-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg></span>
+              <div><h3>Dermatome (sensory)</h3><p data-testid="text-cervical-sensory" id="cervical-sensory"></p></div>
+            </div>
+            <div class="deficit-row" role="listitem">
+              <span class="deficit-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l4 2 4-2 4 2v6l-4 2-4-2-4 2zM6 14l4 2 4-2 4 2v6"/></svg></span>
+              <div><h3>Myotome (motor)</h3><p data-testid="text-cervical-motor" id="cervical-motor"></p></div>
+            </div>
+            <div class="deficit-row" role="listitem">
+              <span class="deficit-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h6l2-6 4 12 2-6h2"/></svg></span>
+              <div><h3>Reflex</h3><p data-testid="text-cervical-reflex" id="cervical-reflex"></p></div>
+            </div>
+            <div class="deficit-row" role="listitem">
+              <span class="deficit-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 11l2.2 2.2L15 9"/></svg></span>
+              <div><h3>Bedside clue</h3><p data-testid="text-cervical-bedside" id="cervical-bedside"></p></div>
+            </div>
+          </div>
+
+          <div class="map-card glass" data-testid="card-cervical-dermatome-map">
+            <div class="map-card-head">
+              <div><span class="readout-eyebrow">Dermatomal map</span><h3>Cervical upper-extremity zones</h3></div>
+              <span class="map-active-root" data-testid="text-cervical-map-active-root">C7 highlighted</span>
+            </div>
+            <div id="cervical-dermatome-map" class="dermatome-map" aria-label="Cervical dermatomal map"></div>
+          </div>
+
+          <div class="note-banner" data-testid="text-cervical-warning-note" id="cervical-warning-note"></div>
+        </div>
+      </div>
+
+      <div class="table-scroll glass">
+        <table class="matrix" data-testid="table-cervical-matrix">
+          <thead><tr>
+            <th scope="col">Disc level</th><th scope="col">Classic root</th><th scope="col">Dermatome</th>
+            <th scope="col">Motor</th><th scope="col">Reflex</th><th scope="col">Common mimic / caution</th>
+          </tr></thead>
+          <tbody id="cervical-matrix-body"></tbody>
+        </table>
+      </div>
+
+      <div class="caveat-card glass" role="note">
+        <h3>Cervical clinical warning</h3>
+        <ul data-testid="list-cervical-warnings">
+          <li>C7 is often reported as the most frequently involved cervical nerve root, while C2–C4 radiculopathy is uncommon <a class="cite" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7788378/" target="_blank" rel="noopener">[Kang et al.]</a>.</li>
+          <li>Classic patterns are imperfect: McAnany et al. found standard textbook pain/numbness patterns in only <strong>54%</strong> of 239 single-level surgical cases, with nonstandard patterns differing by an average of 1.68 dermatomal levels <a class="cite" href="https://pubmed.ncbi.nlm.nih.gov/30121324/" target="_blank" rel="noopener">[McAnany et al.]</a>.</li>
+          <li>Screen for myelopathy when symptoms include hand clumsiness, gait imbalance, hyperreflexia, Babinski, clonus, Hoffmann sign, or bowel/bladder change; signs or symptoms of myelopathy warrant urgent referral <a class="cite" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5737310/" target="_blank" rel="noopener">[McCartney et al.]</a>.</li>
+        </ul>
+      </div>
+
+      <p class="matrix-caveat">
+        Cervical root patterns synthesize <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7788378/" target="_blank" rel="noopener">Kang et al.</a>,
+        <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5737310/" target="_blank" rel="noopener">McCartney et al.</a>, and the
+        <a href="https://www.merckmanuals.com/professional/neurologic-disorders/peripheral-nervous-system-and-motor-unit-disorders/nerve-root-disorders" target="_blank" rel="noopener">Merck Manual</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ THORACIC ============ -->
+  <section class="page" data-page="thoracic" hidden>
+    <div class="container">
+      <div class="page-intro">
+        <p class="eyebrow">Thoracic · Chest and abdominal wall pattern aid</p>
+        <h1 class="large-title">Thoracic level → band-like pattern.</h1>
+        <p class="lede">
+          Thoracic radiculopathy is usually a sensory-predominant syndrome: burning, shooting, or
+          band-like pain wrapping from the back toward the chest or abdomen. Routine limb reflexes
+          are usually less useful than the sensory stripe and myelopathy screen.
+        </p>
+      </div>
+
+      <div class="region-layout">
+        <aside class="controls glass" aria-labelledby="thoracic-controls-heading">
+          <h2 id="thoracic-controls-heading" class="section-title">Select thoracic disc level</h2>
+          <div class="chip-grid thoracic-levels" role="radiogroup" aria-label="Thoracic disc level"></div>
+
+          <div class="rule-card">
+            <h3>Thoracic pattern rule</h3>
+            <p>
+              Thoracic roots exit below their corresponding vertebrae and travel around the rib cage.
+              A radicular presentation often feels like a unilateral band from the posterior thorax
+              toward the anterior chest or abdominal wall.
+            </p>
+            <p class="why-example" data-testid="text-thoracic-rule-example">
+              <span class="why-pill">Example</span>
+              T10 classically localizes near the <strong>umbilicus</strong>; T4 near the <strong>nipple line</strong>.
+            </p>
+          </div>
+        </aside>
+
+        <div class="readout" aria-live="polite">
+          <div class="readout-head glass">
+            <div>
+              <span class="readout-eyebrow">Selected thoracic level</span>
+              <h2 class="readout-title" data-testid="text-thoracic-selected-level">T8–T9</h2>
+            </div>
+            <div class="root-chip">
+              <span class="root-chip-label">Pattern root</span>
+              <span class="root-chip-value" id="thoracic-affected-root">T8</span>
+              <span class="root-chip-morph">thoracic band</span>
+            </div>
+          </div>
+
+          <div class="deficit-list glass" role="list">
+            <div class="deficit-row" role="listitem">
+              <span class="deficit-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12c4-5 12-5 16 0M4 16c4-5 12-5 16 0M7 8c3-3 7-3 10 0"/></svg></span>
+              <div><h3>Dermatome / band</h3><p data-testid="text-thoracic-sensory" id="thoracic-sensory"></p></div>
+            </div>
+            <div class="deficit-row" role="listitem">
+              <span class="deficit-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6c4 1 10 1 14 0M5 18c4-1 10-1 14 0M7 6c-1 4-1 8 0 12M17 6c1 4 1 8 0 12"/></svg></span>
+              <div><h3>Motor / trunk wall</h3><p data-testid="text-thoracic-motor" id="thoracic-motor"></p></div>
+            </div>
+            <div class="deficit-row" role="listitem">
+              <span class="deficit-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h6l2-6 4 12 2-6h2"/></svg></span>
+              <div><h3>Reflex</h3><p data-testid="text-thoracic-reflex" id="thoracic-reflex"></p></div>
+            </div>
+            <div class="deficit-row" role="listitem">
+              <span class="deficit-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L2.6 18a2 2 0 001.7 3h15.4a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg></span>
+              <div><h3>Mimic / caution</h3><p data-testid="text-thoracic-caution" id="thoracic-caution"></p></div>
+            </div>
+          </div>
+
+          <div class="map-card glass" data-testid="card-thoracic-dermatome-map">
+            <div class="map-card-head">
+              <div><span class="readout-eyebrow">Dermatomal map</span><h3>Thoracic band landmarks</h3></div>
+              <span class="map-active-root" data-testid="text-thoracic-map-active-root">T8 highlighted</span>
+            </div>
+            <div id="thoracic-dermatome-map" class="dermatome-map" aria-label="Thoracic dermatomal band map"></div>
+          </div>
+
+          <div class="note-banner" data-testid="text-thoracic-warning-note" id="thoracic-warning-note"></div>
+        </div>
+      </div>
+
+      <div class="table-scroll glass">
+        <table class="matrix" data-testid="table-thoracic-matrix">
+          <thead><tr>
+            <th scope="col">Disc level</th><th scope="col">Root pattern</th><th scope="col">Dermatome landmark</th>
+            <th scope="col">Motor / reflex expectation</th><th scope="col">Key caution</th>
+          </tr></thead>
+          <tbody id="thoracic-matrix-body"></tbody>
+        </table>
+      </div>
+
+      <div class="caveat-card glass" role="note">
+        <h3>Thoracic clinical warning</h3>
+        <ul data-testid="list-thoracic-warnings">
+          <li>Thoracic radiculopathy is the least common radiculopathy location, and symptoms often wrap around the front of the body in a dermatomal distribution <a class="cite" href="https://www.hopkinsmedicine.org/health/conditions-and-diseases/radiculopathy" target="_blank" rel="noopener">[Johns Hopkins]</a>.</li>
+          <li>The most common presenting complaint is band-like chest wall pain; sensory loss may be asymmetric and dermatomal, while motor findings are often limited to intercostal or abdominal wall weakness <a class="cite" href="https://now.aapmr.org/thoracic-radiculopathymyelopathy/" target="_blank" rel="noopener">[PM&amp;R KnowledgeNow]</a>.</li>
+          <li>Thoracic and abdominal pain can mimic many visceral, rib, zoster, diabetic, infectious, or neoplastic conditions, and diagnosis may be delayed for months or years <a class="cite" href="https://www.e-arm.org/journal/view.php?number=712" target="_blank" rel="noopener">[Choi et al.]</a>.</li>
+          <li>Screen carefully for thoracic myelopathy. Bowel or bladder dysfunction, hyperreflexia, profound weakness, gait change, or a clear sensory level should prompt urgent evaluation <a class="cite" href="https://now.aapmr.org/thoracic-radiculopathymyelopathy/" target="_blank" rel="noopener">[PM&amp;R KnowledgeNow]</a>.</li>
+        </ul>
+      </div>
+
+      <p class="matrix-caveat">
+        Thoracic mapping uses common dermatome landmarks and synthesis from
+        <a href="https://now.aapmr.org/thoracic-radiculopathymyelopathy/" target="_blank" rel="noopener">PM&amp;R KnowledgeNow</a>,
+        <a href="https://www.hopkinsmedicine.org/health/conditions-and-diseases/radiculopathy" target="_blank" rel="noopener">Johns Hopkins Medicine</a>, and
+        <a href="https://www.ncbi.nlm.nih.gov/books/NBK542218/" target="_blank" rel="noopener">StatPearls — Spinal Nerves</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ LUMBAR / SACRAL ============ -->
+  <section class="page" data-page="lumbar" hidden>
+    <div class="container">
+      <div class="page-intro">
+        <p class="eyebrow">Lumbar/Sacral · Lower-extremity pattern aid</p>
+        <h1 class="large-title">Lumbar disc level → nerve root deficit.</h1>
+        <p class="lede">
+          Select a disc level and herniation morphology. The tool returns the most likely affected
+          root with its dermatome, myotome, reflex, and bedside clue.
+        </p>
+        <p class="hero-note glass-subtle">
+          Approximately 95% of lumbar disc herniations occur at L4–L5 or L5–S1
+          <a class="cite" href="https://www.ncbi.nlm.nih.gov/books/NBK560878/" target="_blank" rel="noopener" data-testid="cite-statpearls-prevalence">[StatPearls]</a>.
+        </p>
+      </div>
+
+      <div class="region-layout">
+        <aside class="controls glass" aria-labelledby="controls-heading">
+          <h2 id="controls-heading" class="section-title">Select disc level</h2>
+          <div class="segmented disc-levels" role="radiogroup" aria-label="Disc level"></div>
+
+          <h2 class="section-title">Herniation morphology</h2>
+          <div class="segmented segmented-stack morph-toggle" role="radiogroup" aria-label="Herniation morphology">
+            <button type="button" class="seg-btn morph-btn is-active" data-morph="paracentral" data-testid="button-morph-paracentral" role="radio" aria-checked="true">
+              <span class="seg-title">Paracentral / posterolateral</span>
+              <span class="seg-sub">Affects the <em>traversing</em> root (most common)</span>
+            </button>
+            <button type="button" class="seg-btn morph-btn" data-morph="far-lateral" data-testid="button-morph-far-lateral" role="radio" aria-checked="false">
+              <span class="seg-title">Far-lateral / foraminal</span>
+              <span class="seg-sub">Affects the <em>exiting</em> root</span>
+            </button>
+          </div>
+
+          <div class="rule-card">
+            <h3>Why morphology matters</h3>
+            <p>
+              At a given lumbar level, the <strong>exiting root</strong> leaves through the
+              neural foramen at that level, while the <strong>traversing root</strong> descends past
+              the disc toward the foramen below. Paracentral herniations sit medial in the canal and
+              compress the traversing root; far-lateral herniations sit out in the foramen and compress
+              the exiting root <a class="cite" href="https://www.ncbi.nlm.nih.gov/books/NBK560878/" target="_blank" rel="noopener">[StatPearls]</a>.
+            </p>
+            <p class="why-example" data-testid="text-why-example">
+              <span class="why-pill">Example</span>
+              A lateral L4–L5 lesion typically causes <strong>L5</strong> radiculopathy; a far-lateral
+              L4–L5 lesion typically causes <strong>L4</strong> radiculopathy.
+            </p>
+          </div>
+        </aside>
+
+        <div class="readout" aria-live="polite">
+          <div class="readout-head glass">
+            <div>
+              <span class="readout-eyebrow">Selected level</span>
+              <h2 class="readout-title" data-testid="text-selected-level">L4–L5</h2>
+            </div>
+            <div class="root-chip root-chip-morph-thumb">
+              <div class="root-chip-text">
+                <span class="root-chip-label">Affected root</span>
+                <span class="root-chip-value" id="affected-root">L5</span>
+                <span class="root-chip-morph" id="affected-root-morph">paracentral · traversing</span>
+              </div>
+              <button type="button" class="morph-thumb" id="morph-thumb" data-open-morph-viewer data-testid="button-open-morph-viewer" aria-label="Enlarge axial morphology view">
+                <picture>
+                  <source id="morph-thumb-webp" type="image/webp" srcset="./assets/morph-paracentral-rendered.webp" />
+                  <img id="morph-thumb-img" src="./assets/morph-paracentral-rendered-1200.png" alt="Axial view: paracentral disc morphology" loading="lazy" />
+                </picture>
+                <span class="morph-thumb-hint">Axial · tap to enlarge</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="deficit-list glass" role="list">
+            <div class="deficit-row" role="listitem">
+              <span class="deficit-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.6-7-11a7 7 0 0114 0c0 6.4-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg></span>
+              <div><h3>Dermatome (sensory)</h3><p data-testid="text-deficit-sensory" id="deficit-sensory"></p><p class="autozone" data-testid="text-deficit-autozone" id="deficit-autozone"></p></div>
+            </div>
+            <div class="deficit-row" role="listitem">
+              <span class="deficit-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l4 2 4-2 4 2v6l-4 2-4-2-4 2zM6 14l4 2 4-2 4 2v6"/></svg></span>
+              <div><h3>Myotome (motor)</h3><p data-testid="text-deficit-motor" id="deficit-motor"></p></div>
+            </div>
+            <div class="deficit-row" role="listitem">
+              <span class="deficit-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h6l2-6 4 12 2-6h2"/></svg></span>
+              <div><h3>Reflex</h3><p data-testid="text-deficit-reflex" id="deficit-reflex"></p></div>
+            </div>
+            <div class="deficit-row" role="listitem">
+              <span class="deficit-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 11l2.2 2.2L15 9"/></svg></span>
+              <div><h3>Bedside clue</h3><p data-testid="text-deficit-bedside" id="deficit-bedside"></p></div>
+            </div>
+          </div>
+
+          <div class="map-card glass" data-testid="card-lumbar-dermatome-map">
+            <div class="map-card-head">
+              <div><span class="readout-eyebrow">Dermatomal map</span><h3>Lumbosacral sensory zones</h3></div>
+              <span class="map-active-root" data-testid="text-lumbar-map-active-root">L5 highlighted</span>
+            </div>
+            <div id="lumbar-dermatome-map" class="dermatome-map" aria-label="Lumbar dermatomal map"></div>
+          </div>
+
+          <div class="note-banner" data-testid="text-prevalence" id="prevalence-note"></div>
+        </div>
+      </div>
+
+      <!-- Morphology atlas -->
+      <div class="atlas-head">
+        <p class="eyebrow">Morphology atlas · Axial schematic</p>
+        <h2 class="atlas-title">Disc shape changes which root is at risk.</h2>
+        <p class="lede">
+          These simplified axial views show where the fragment sits relative to the canal,
+          lateral recess, and neural foramen. They are teaching schematics, not diagnostic MRI criteria.
+        </p>
+      </div>
+
+      <div class="atlas-grid" data-testid="section-morphology-atlas">
+        <article class="atlas-card glass atlas-card-wide" data-morph-card="normal" data-testid="card-morphology-normal">
+          <div class="atlas-figure">
+            <picture>
+              <source type="image/webp" srcset="./assets/morph-normal-rendered-labeled.webp" />
+              <img src="./assets/morph-normal-rendered-labeled-1200.png" alt="Normal axial lumbar anatomy with labels: vertebral body, thecal sac, nerve root, neural foramen, annulus fibrosus, nucleus pulposus." loading="lazy" />
+            </picture>
+          </div>
+          <div class="atlas-copy">
+            <h3>Normal axial relationship</h3>
+            <p>Baseline view before herniation: the posterior disc margin stays behind the thecal sac, with clear lateral recess and foraminal corridors.</p>
+            <span class="atlas-note">Reference anatomy view — the only labeled diagram.</span>
+          </div>
+        </article>
+
+        <article class="atlas-card glass" data-morph-card="central" data-testid="card-morphology-central">
+          <div class="atlas-figure">
+            <picture>
+              <source type="image/webp" srcset="./assets/morph-central-rendered.webp" />
+              <img src="./assets/morph-central-rendered-1200.png" alt="Central posterior disc material narrowing the canal toward the thecal sac." loading="lazy" />
+            </picture>
+          </div>
+          <div class="atlas-copy">
+            <h3>Central / broad-based</h3>
+            <p>Midline posterior material narrows the canal. Symptoms may be bilateral or multiroot rather than a clean single-root pattern.</p>
+            <span class="atlas-note">Use caution: not a one-to-one root localizer.</span>
+          </div>
+        </article>
+
+        <article class="atlas-card glass is-active" data-morph-card="paracentral" data-testid="card-morphology-paracentral">
+          <button type="button" class="atlas-card-action" data-set-morph="paracentral" data-testid="button-morphology-paracentral" aria-label="Select paracentral morphology"></button>
+          <div class="atlas-figure">
+            <picture>
+              <source type="image/webp" srcset="./assets/morph-paracentral-rendered.webp" />
+              <img src="./assets/morph-paracentral-rendered-1200.png" alt="Paracentral disc material contacting the traversing root in the lateral recess." loading="lazy" />
+            </picture>
+          </div>
+          <div class="atlas-copy">
+            <h3>Paracentral / posterolateral</h3>
+            <p>The fragment sits medial to the foramen and most often contacts the <strong>traversing</strong> root.</p>
+            <span class="atlas-note">Example: L4–L5 usually affects L5.</span>
+          </div>
+        </article>
+
+        <article class="atlas-card glass" data-morph-card="foraminal" data-morph-family="far-lateral" data-testid="card-morphology-foraminal">
+          <button type="button" class="atlas-card-action" data-set-morph="far-lateral" data-testid="button-morphology-foraminal" aria-label="Select foraminal morphology"></button>
+          <div class="atlas-figure">
+            <picture>
+              <source type="image/webp" srcset="./assets/morph-foraminal-rendered.webp" />
+              <img src="./assets/morph-foraminal-rendered-1200.png" alt="Foraminal disc material narrowing the foramen against the exiting root." loading="lazy" />
+            </picture>
+          </div>
+          <div class="atlas-copy">
+            <h3>Foraminal</h3>
+            <p>The fragment sits within the neural foramen and most often contacts the <strong>exiting</strong> root.</p>
+            <span class="atlas-note">Example: L4–L5 usually affects L4.</span>
+          </div>
+        </article>
+
+        <article class="atlas-card glass" data-morph-card="far-lateral" data-morph-family="far-lateral" data-testid="card-morphology-far-lateral">
+          <button type="button" class="atlas-card-action" data-set-morph="far-lateral" data-testid="button-morphology-far-lateral" aria-label="Select extraforaminal far-lateral morphology"></button>
+          <div class="atlas-figure">
+            <picture>
+              <source type="image/webp" srcset="./assets/morph-extraforaminal-rendered.webp" />
+              <img src="./assets/morph-extraforaminal-rendered-1200.png" alt="Extraforaminal far-lateral disc material contacting the exiting root beyond the foramen." loading="lazy" />
+            </picture>
+          </div>
+          <div class="atlas-copy">
+            <h3>Extraforaminal / far-lateral</h3>
+            <p>The fragment sits lateral to the foramen and most often contacts the <strong>exiting</strong> root beyond the canal.</p>
+            <span class="atlas-note">Example: L4–L5 usually affects L4.</span>
+          </div>
+        </article>
+      </div>
+
+      <p class="matrix-caveat">
+        Traversing-versus-exiting root rules follow
+        <a href="https://www.ncbi.nlm.nih.gov/books/NBK560878/" target="_blank" rel="noopener">StatPearls — Lumbar Disc Herniation</a>.
+      </p>
+
+      <!-- Comparison matrix -->
+      <div class="matrix-head">
+        <h2 class="atlas-title">Comparison matrix</h2>
+        <p class="lede">All five disc levels, both morphologies. Tap a row to load it in the tool above.</p>
+      </div>
+      <div class="table-scroll glass">
+        <table class="matrix" data-testid="table-matrix">
+          <thead><tr>
+            <th scope="col">Disc level</th><th scope="col">Paracentral → traversing root</th><th scope="col">Far-lateral → exiting root</th>
+            <th scope="col">Dermatome (autonomous zone)</th><th scope="col">Motor</th><th scope="col">Reflex</th>
+          </tr></thead>
+          <tbody id="matrix-body"></tbody>
+        </table>
+      </div>
+      <p class="matrix-caveat">
+        Autonomous zones from <a href="https://www.ncbi.nlm.nih.gov/books/NBK546593/" target="_blank" rel="noopener">StatPearls — Radicular Back Pain</a>.
+        Motor and reflex columns synthesize <a href="https://www.ncbi.nlm.nih.gov/books/NBK560878/" target="_blank" rel="noopener">StatPearls — Lumbar Disc Herniation</a>
+        and the <a href="https://www.merckmanuals.com/professional/neurologic-disorders/peripheral-nervous-system-and-motor-unit-disorders/nerve-root-disorders" target="_blank" rel="noopener">Merck Manual</a>.
+      </p>
+
+      <!-- Warning -->
+      <div class="warning-card glass" role="note" aria-labelledby="warning-heading">
+        <div class="warning-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/></svg>
+        </div>
+        <div class="warning-body">
+          <p class="warning-eyebrow">Clinical warning · Not a diagnosis</p>
+          <h2 id="warning-heading">Read the output as a pattern, not a localizer.</h2>
+          <ul class="warning-list" data-testid="list-warnings">
+            <li>Treat this tool as a pattern-recognition aid for trainees and clinicians, not a standalone localizer or substitute for examination, imaging, and clinical judgment.</li>
+            <li>Root functions overlap, particularly the L2–L4 group sharing anterior-thigh innervation, hip flexion, hip adduction, and knee extension. Muscle strength is often preserved because most muscles receive multi-root innervation <a class="cite" href="https://www.ncbi.nlm.nih.gov/books/NBK546593/" target="_blank" rel="noopener">[StatPearls — Radicular Back Pain]</a>.</li>
+            <li>Pain commonly does not follow textbook dermatomes. Murphy et al. found <strong>64.1%</strong> of lumbar radicular pain patterns were non-dermatomal overall (L5 83.7%, L4 71.4%, L3 69.2%, L2 60.0%); only S1 was predominantly dermatomal at 64.9% <a class="cite" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2753622/" target="_blank" rel="noopener">[Murphy et al.]</a>.</li>
+            <li>Isolated sensory, motor, or reflex findings have imperfect accuracy. A BMC systematic review reported sensory testing sensitivity 0.61 / specificity 0.63, motor sensitivity 0.13–0.61, and reflex specificity up to 0.93 but sensitivity 0.14–0.67. The authors recommend consolidating findings rather than relying on a single test <a class="cite" href="https://bmcmusculoskeletdisord.biomedcentral.com/articles/10.1186/s12891-016-1383-2" target="_blank" rel="noopener">[Tawa et al.]</a>.</li>
+            <li>Disc morphology determines which root is compressed: paracentral and posterolateral lesions usually affect the traversing root, while far-lateral and extraforaminal lesions usually affect the exiting root <a class="cite" href="https://www.ncbi.nlm.nih.gov/books/NBK560878/" target="_blank" rel="noopener">[StatPearls]</a>.</li>
+            <li>Imaging is not diagnostic in isolation: roughly <strong>27%</strong> of asymptomatic adults have disc herniation on MRI <a class="cite" href="https://www.ncbi.nlm.nih.gov/books/NBK546593/" target="_blank" rel="noopener">[StatPearls — Radicular Back Pain]</a>. Correlate with history, exam, and red flags.</li>
+            <li>Urgent evaluation is warranted for progressive weakness, bowel or bladder dysfunction, saddle anesthesia, or any concern for cauda equina syndrome.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SYMPTOM LOCALIZER (guided patient pain drawing) ============ -->
+  <section class="page" data-page="symptom" hidden>
+    <div class="container">
+      <div id="symptom-guide" class="symptom-guide">
+
+        <!-- ===== PHASE 1 · INTRO / REGION SELECT ===== -->
+        <div class="guide-phase guide-intro" id="guide-intro" data-phase="intro">
+          <div class="guide-prompt">
+            <p class="eyebrow">Pain drawing</p>
+            <h1 class="guide-headline" id="guide-intro-prompt">Where do your symptoms travel?</h1>
+            <p class="guide-subtle" id="guide-intro-sub">Pick an arm, torso, or leg area to draw symptoms that radiate from the spine — like pain, numbness, or tingling. Pick the area that bothers you most; you can mark more than one.</p>
+          </div>
+          <div class="region-cards" id="guide-region-cards" role="group" aria-label="Body regions"></div>
+          <p class="guide-disclaimer">An education tool for clinic discussion. It does not diagnose the cause of symptoms, and nothing you draw is saved.</p>
+        </div>
+
+        <!-- ===== PHASE 2 · PAINT ===== -->
+        <div class="guide-phase guide-paint" id="guide-paint" data-phase="paint" hidden>
+          <div class="guide-prompt">
+            <p class="eyebrow"><span id="guide-paint-region">Region</span></p>
+            <h2 class="guide-headline">Paint your symptoms</h2>
+            <p class="guide-subtle" id="guide-paint-hint">Press and drag to paint over the spots where you feel it, like drawing with your finger. Use the eraser, undo, or clear in the tool palette to fix mistakes.</p>
+          </div>
+
+          <div class="guide-stage">
+            <div class="guide-palette">
+              <p class="guide-palette-label" id="guide-palette-label">Brush</p>
+              <div class="guide-tools" id="guide-tools" role="radiogroup" aria-labelledby="guide-palette-label"></div>
+              <div class="palette-foot">
+                <span class="guide-mark-count" id="guide-mark-count" aria-live="polite"></span>
+                <button type="button" class="cta-btn guide-complete" data-guide-complete data-testid="button-guide-complete" aria-label="Complete" disabled aria-disabled="true">Complete</button>
+              </div>
+            </div>
+            <div class="guide-figure" id="guide-figure" data-testid="guide-figure"></div>
+          </div>
+
+          <div class="guide-paint-bar">
+            <div class="guide-paint-bar-left">
+              <button type="button" class="pill-btn" data-guide-back data-testid="button-guide-back">Change area</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== PHASE 3 · REVEAL ===== -->
+        <div class="guide-phase guide-reveal" id="guide-reveal" data-phase="reveal" hidden>
+          <div class="guide-result" id="guide-result" tabindex="-1">
+            <div class="guide-prompt">
+              <p class="eyebrow">Your result</p>
+              <h2 class="guide-headline" id="guide-reveal-headline">Here's the nerve pattern your drawing most likely matches</h2>
+              <p class="guide-subtle" id="guide-reveal-subtle">Each nerve from your spine sends feeling to its own area of skin and muscle. Based on where you marked your symptoms, here's the nerve area that may fit best. Nerve areas overlap a lot, so think of this as a helpful starting point for a talk with your care team — not a diagnosis.</p>
+            </div>
+
+            <div class="reveal-roots" id="guide-reveal-roots" data-testid="list-reveal-roots"></div>
+
+            <div class="reveal-cards" id="guide-result-cards"></div>
+
+            <div class="map-card glass symptom-map-card" data-testid="card-symptom-dermatome-map">
+              <div class="map-card-head">
+                <div><span class="readout-eyebrow">Body map</span><h3>The area of skin this nerve usually covers</h3></div>
+                <span class="map-active-root" data-testid="text-symptom-map-active-root">No root selected</span>
+              </div>
+              <div id="symptom-dermatome-map" class="dermatome-map" aria-label="Symptom localizer top-match dermatome map"></div>
+            </div>
+
+            <div class="caveat-card glass">
+              <h3>Please keep in mind</h3>
+              <p>Nerves share a lot of the same skin and muscles, and real symptoms do not always follow the textbook. This is here to help you and your care team talk things through — it is not a diagnosis, and it does not replace a real exam.</p>
+              <ul>
+                <li><strong>Get medical care right away</strong> if you have new or fast-worsening weakness, trouble walking or keeping your balance, numbness in the groin or saddle area (where you sit), or any loss of control over your bladder or bowels.</li>
+                <li>If you feel symptoms on both sides of your body, or in several separate areas, the cause may be something other than a single pinched nerve.</li>
+              </ul>
+            </div>
+
+            <div class="guide-reveal-actions">
+              <button type="button" class="pill-btn" data-guide-copy data-testid="button-guide-copy" aria-describedby="guide-copy-status">Copy drawing for EHR</button>
+              <button type="button" class="pill-btn" data-guide-edit data-testid="button-guide-edit">Edit drawing</button>
+              <button type="button" class="cta-btn" data-guide-learn data-testid="button-guide-learn" hidden>Learn more about this nerve root</button>
+              <button type="button" class="pill-btn" data-guide-startover data-testid="button-guide-startover">Start over</button>
+            </div>
+            <p class="guide-copy-status" id="guide-copy-status" data-testid="text-guide-copy-status" aria-live="polite"></p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SOURCES ============ -->
+  <section class="page" data-page="sources" hidden>
+    <div class="container">
+      <div class="page-intro">
+        <p class="eyebrow">References</p>
+        <h1 class="large-title">Sources</h1>
+      </div>
+      <ol class="sources-list glass" data-testid="list-sources">
+        <li><a href="https://www.ncbi.nlm.nih.gov/books/NBK560878/" target="_blank" rel="noopener">StatPearls — Lumbar Disc Herniation</a><span>Disc-morphology rules, level-specific deficits, ~95% L4–L5/L5–S1 prevalence.</span></li>
+        <li><a href="https://www.ncbi.nlm.nih.gov/books/NBK546593/" target="_blank" rel="noopener">StatPearls — Radicular Back Pain</a><span>Autonomous zones, L2–L4 functional overlap, asymptomatic-MRI caveat.</span></li>
+        <li><a href="https://www.merckmanuals.com/professional/neurologic-disorders/peripheral-nervous-system-and-motor-unit-disorders/nerve-root-disorders" target="_blank" rel="noopener">Merck Manual — Nerve Root Disorders</a><span>Level-specific sensorimotor patterns and reflex changes.</span></li>
+        <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2753622/" target="_blank" rel="noopener">Murphy DR et al. — Pain patterns and descriptions in patients with radicular pain</a><span>Non-dermatomal frequency by level (overall 64.1%).</span></li>
+        <li><a href="https://bmcmusculoskeletdisord.biomedcentral.com/articles/10.1186/s12891-016-1383-2" target="_blank" rel="noopener">Tawa N et al. — BMC Musculoskeletal Disorders systematic review</a><span>Diagnostic accuracy of clinical tests for lumbar radiculopathy.</span></li>
+        <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7788378/" target="_blank" rel="noopener">Kang KC et al. — Cervical Radiculopathy Focus on Characteristics and Differential Diagnosis</a><span>Cervical root patterns, common levels, prevalence, provocative-test and diagnostic caveats.</span></li>
+        <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5737310/" target="_blank" rel="noopener">McCartney S et al. — Cervical radiculopathy and cervical myelopathy</a><span>C5–C8 key neurologic findings and myelopathy red flags.</span></li>
+        <li><a href="https://pubmed.ncbi.nlm.nih.gov/30121324/" target="_blank" rel="noopener">McAnany SJ et al. — Observed patterns of cervical radiculopathy</a><span>Nonstandard cervical radicular pattern frequency in single-level surgical cases.</span></li>
+        <li><a href="https://now.aapmr.org/thoracic-radiculopathymyelopathy/" target="_blank" rel="noopener">PM&amp;R KnowledgeNow — Thoracic Radiculopathy/Myelopathy</a><span>Thoracic presentation, band-like pain, sensory findings, motor limitations, and myelopathy red flags.</span></li>
+        <li><a href="https://www.hopkinsmedicine.org/health/conditions-and-diseases/radiculopathy" target="_blank" rel="noopener">Johns Hopkins Medicine — Radiculopathy</a><span>Thoracic radiculopathy as least common location with dermatomal wrapping pain/numbness.</span></li>
+        <li><a href="https://www.ncbi.nlm.nih.gov/books/NBK542218/" target="_blank" rel="noopener">StatPearls — Neuroanatomy, Spinal Nerves</a><span>Thoracic spinal nerve anatomy, dermatomes, and thoracic/abdominal wall innervation.</span></li>
+        <li><a href="https://commons.wikimedia.org/wiki/File:Dermatoms.svg" target="_blank" rel="noopener">Ralf Stephan / Wikimedia Commons — Dermatoms.svg</a><span>Human anterior/posterior dermatome map asset used as the built-in anatomical reference; public domain.</span></li>
+        <li><a href="https://www.e-arm.org/journal/view.php?number=712" target="_blank" rel="noopener">Choi HE et al. — Thoracic Radiculopathy due to Rare Causes</a><span>Thoracic radiculopathy diagnostic delay, mimicry, and frequent lack of motor deficit.</span></li>
+      </ol>
+
+      <p class="footer-disclaimer">
+        Educational tool for clinical pattern recognition. Not medical advice and not a
+        diagnostic device. Always correlate with history, examination, imaging, and
+        red flags. Urgent evaluation for cauda equina symptoms or progressive deficit.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<!-- Mobile bottom glass tab bar -->
+<nav class="tab-bar glass" aria-label="Sections">
+  <button type="button" class="tab tab-primary" data-open-page="symptom" data-testid="tab-symptom">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"/><path d="M14.5 5.5l3 3"/></svg><span>Draw</span>
+  </button>
+  <button type="button" class="tab is-active" data-open-page="landing" data-testid="tab-home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7M5 10v9h14v-9"/></svg><span>Home</span>
+  </button>
+  <button type="button" class="tab" data-open-page="cervical" data-testid="tab-cervical">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="8.75" y="3.4" width="6.5" height="4.7" rx="1.8" fill="currentColor" stroke="none"/><rect x="8.75" y="9.65" width="6.5" height="4.7" rx="1.8"/><rect x="8.75" y="15.9" width="6.5" height="4.7" rx="1.8"/></svg><span>Cervical</span>
+  </button>
+  <button type="button" class="tab" data-open-page="thoracic" data-testid="tab-thoracic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="8.75" y="3.4" width="6.5" height="4.7" rx="1.8"/><rect x="8.75" y="9.65" width="6.5" height="4.7" rx="1.8" fill="currentColor" stroke="none"/><rect x="8.75" y="15.9" width="6.5" height="4.7" rx="1.8"/></svg><span>Thoracic</span>
+  </button>
+  <button type="button" class="tab" data-open-page="lumbar" data-testid="tab-lumbar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="8.75" y="3.4" width="6.5" height="4.7" rx="1.8"/><rect x="8.75" y="9.65" width="6.5" height="4.7" rx="1.8"/><rect x="8.75" y="15.9" width="6.5" height="4.7" rx="1.8" fill="currentColor" stroke="none"/></svg><span>Lumbar</span>
+  </button>
+</nav>
+
+<!-- Dermatome map sheet -->
+<div id="map-viewer" class="sheet-overlay" role="dialog" aria-modal="true" aria-labelledby="map-viewer-title" hidden>
+  <div class="sheet-backdrop" data-close-map-viewer aria-hidden="true"></div>
+  <section class="sheet glass-strong" aria-describedby="map-viewer-caption">
+    <div class="sheet-grabber" aria-hidden="true"></div>
+    <header class="sheet-head">
+      <div>
+        <p class="eyebrow">Patient view · Dermatome reference</p>
+        <h2 id="map-viewer-title">Human dermatome map</h2>
+      </div>
+      <button type="button" class="sheet-close" data-close-map-viewer aria-label="Close enlarged dermatome map" data-testid="button-close-map-viewer">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </header>
+    <div class="sheet-body">
+      <div id="map-viewer-canvas" class="sheet-canvas">
+        <img id="map-viewer-image" class="dermatome-base-img" src="./assets/dermatomes-highlight-v6-default.svg" alt="Full-body anterior and posterior human dermatome map" decoding="async" />
+      </div>
+    </div>
+    <p id="map-viewer-caption" class="sheet-caption">
+      Full-body anterior/posterior dermatome reference. Use this enlarged view for patient education and correlate with the selected nerve root findings.
+    </p>
+  </section>
+</div>
+
+<!-- Morphology sheet -->
+<div id="morph-viewer" class="sheet-overlay morph-viewer" role="dialog" aria-modal="true" aria-labelledby="morph-viewer-title" hidden>
+  <div class="sheet-backdrop" data-close-morph-viewer aria-hidden="true"></div>
+  <section class="sheet glass-strong" aria-describedby="morph-viewer-caption">
+    <div class="sheet-grabber" aria-hidden="true"></div>
+    <header class="sheet-head">
+      <div>
+        <p class="eyebrow">Axial view · Disc morphology</p>
+        <h2 id="morph-viewer-title">Axial disc morphology</h2>
+      </div>
+      <button type="button" class="sheet-close" data-close-morph-viewer aria-label="Close enlarged axial morphology view" data-testid="button-close-morph-viewer">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </header>
+    <div class="sheet-body morph-viewer-body">
+      <div class="sheet-canvas morph-viewer-canvas">
+        <picture>
+          <source id="morph-viewer-webp" type="image/webp" srcset="./assets/morph-paracentral-rendered.webp" />
+          <img id="morph-viewer-image" src="./assets/morph-paracentral-rendered-1200.png" alt="Enlarged axial view of paracentral disc morphology" decoding="async" />
+        </picture>
+      </div>
+    </div>
+    <p id="morph-viewer-caption" class="sheet-caption">
+      Axial cut showing the selected herniation morphology and which nerve root it compresses. Educational illustration; not a patient image.
+    </p>
+  </section>
+</div>
+
+<script src="./data.js?v=apple9-l4s1fullregion-v15"></script>
+<script src="./app.js?v=tpl4"></script>
+<script src="./paint.js?v=tpl17"></script>
+<script data-pplx-inline-edit>
+(function () {
+  if (window === window.top) return;
+
+  const allowedParentOrigins = ["https://www.perplexity.ai","https://perplexity.ai","https://testing.perplexity.ai","https://staging.perplexity.ai","https://*.preview.i.perplexity.ai","http://localhost:3000","http://127.0.0.1:3000","http://localhost:5173","http://127.0.0.1:5173"];
+  const MAX_FONT_BYTES = 500 * 1024;
+  const MAX_TOTAL_FONT_BYTES = 2 * 1024 * 1024;
+  let scrollForwarding = false;
+  let scrollRaf = 0;
+  let trustedTopOrigin = null;
+
+  // Allow entries like "https://*.preview.i.perplexity.ai" — the wildcard
+  // matches a single DNS label (no dots), so "https://*.foo" cannot stretch
+  // across multiple labels.
+  function matchesAllowedOrigin(origin) {
+    if (!origin) return false;
+    for (const entry of allowedParentOrigins) {
+      if (!entry.includes("*")) {
+        if (entry === origin) return true;
+        continue;
+      }
+      const pattern = new RegExp(
+        "^" +
+          entry.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace(/\*/g, "[^.]+") +
+          "$",
+      );
+      if (pattern.test(origin)) return true;
+    }
+    return false;
+  }
+
+  // Trust decision: when the sender is same-origin-visible (event.origin is a
+  // real origin like https://www.perplexity.ai) we trust event.origin directly.
+  // When event.origin is "null" (opaque broker srcdoc), we fall back to the
+  // broker's stamped `parentOrigin` to identify the top window. The fallback
+  // is claim-only — we rely on the browser's native `targetOrigin` enforcement
+  // on the response path (see postToTrustedTop) to ensure replies can't be
+  // delivered to anyone but the actual top window of that claimed origin.
+  function getTrustedParentOrigin(event) {
+    const forwardedParentOrigin =
+      typeof event.data.parentOrigin === "string" ? event.data.parentOrigin : null;
+    const parentOrigin = event.origin === "null" ? forwardedParentOrigin : event.origin;
+    return matchesAllowedOrigin(parentOrigin) ? parentOrigin : null;
+  }
+
+  // All responses go to window.top with targetOrigin = the allowlisted origin.
+  // An attacker that iframes us inside their own null-origin broker can claim
+  // any parentOrigin they like, but the browser will drop the reply whenever
+  // the real top's origin doesn't match — so the screenshot never leaves.
+  function postToTrustedTop(message) {
+    if (!trustedTopOrigin) return;
+    try {
+      window.top.postMessage(message, trustedTopOrigin);
+    } catch (_error) {}
+  }
+
+  function inlineAll(original, clone) {
+    if (original.nodeType !== 1 || clone.nodeType !== 1) return;
+
+    try {
+      const computedStyle = getComputedStyle(original);
+      // cssText on a computed style is the serialized declaration in modern
+      // Chromium/Safari — a single read beats enumerating ~400 longhand
+      // properties. Firefox returns "" here, so we fall back on empty.
+      const serialized = computedStyle.cssText;
+      if (serialized) {
+        clone.style.cssText = serialized;
+      } else {
+        const parts = new Array(computedStyle.length);
+        for (let index = 0; index < computedStyle.length; index += 1) {
+          const property = computedStyle[index];
+          parts[index] = `${property}:${computedStyle.getPropertyValue(property)};`;
+        }
+        clone.style.cssText = parts.join("");
+      }
+    } catch (_error) {}
+
+    const originalChildren = original.children;
+    const clonedChildren = clone.children;
+    for (
+      let index = 0;
+      index < originalChildren.length && index < clonedChildren.length;
+      index += 1
+    ) {
+      inlineAll(originalChildren[index], clonedChildren[index]);
+    }
+  }
+
+  function extractFontUrl(srcValue) {
+    const matches = [
+      ...srcValue.matchAll(
+        /url\(["']?([^"')]+)["']?\)(?:\s*format\(["']?([^"')]+)["']?\))?/gi,
+      ),
+    ];
+    if (matches.length === 0) return null;
+    const woff2 = matches.find((m) => m[2] && m[2].toLowerCase().includes("woff2"));
+    if (woff2) return woff2[1];
+    const woff = matches.find((m) => m[2] && m[2].toLowerCase().includes("woff"));
+    if (woff) return woff[1];
+    return matches[0][1];
+  }
+
+  // Cache resolved font URL -> data URI across captures. Fonts on a page
+  // essentially never change, and a batch run emits multiple captures back to
+  // back — without this we'd refetch + re-base64 every time.
+  const fontDataUriCache = new Map();
+  const SRC_DECLARATION_RE = /src\s*:\s*[^;}]+/i;
+
+  async function fetchAsDataUri(url) {
+    if (fontDataUriCache.has(url)) return fontDataUriCache.get(url);
+    let dataUri = null;
+    try {
+      const response = await fetch(url, { mode: "cors", credentials: "omit" });
+      if (response.ok) {
+        const blob = await response.blob();
+        if (blob.size <= MAX_FONT_BYTES) {
+          dataUri = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () =>
+              resolve(typeof reader.result === "string" ? reader.result : null);
+            reader.onerror = () => resolve(null);
+            reader.readAsDataURL(blob);
+          });
+        }
+      }
+    } catch (_error) {
+      dataUri = null;
+    }
+    fontDataUriCache.set(url, dataUri);
+    return dataUri;
+  }
+
+  function collectFontFaceRuleTexts() {
+    const rules = [];
+    for (const sheet of document.styleSheets) {
+      let cssRules;
+      try {
+        cssRules = sheet.cssRules;
+      } catch (_error) {
+        continue;
+      }
+      if (!cssRules) continue;
+      for (const rule of cssRules) {
+        const cssText = rule.cssText || "";
+        if (cssText.startsWith("@font-face")) rules.push(cssText);
+      }
+    }
+    return rules;
+  }
+
+  async function buildInlinedFontCss() {
+    const ruleTexts = collectFontFaceRuleTexts();
+    if (ruleTexts.length === 0) return null;
+
+    const resolved = ruleTexts.map((cssText) => {
+      if (!SRC_DECLARATION_RE.test(cssText)) return null;
+      const srcMatch = cssText.match(/src\s*:\s*([^;}]+)[;}]/i);
+      if (!srcMatch) return null;
+      const url = extractFontUrl(srcMatch[1]);
+      if (!url) return null;
+      try {
+        return { cssText, url: new URL(url, document.baseURI).href };
+      } catch (_error) {
+        return null;
+      }
+    });
+
+    const dataUris = await Promise.all(
+      resolved.map((entry) => (entry ? fetchAsDataUri(entry.url) : Promise.resolve(null))),
+    );
+
+    const inlined = [];
+    let totalBytes = 0;
+    for (let index = 0; index < resolved.length; index += 1) {
+      const entry = resolved[index];
+      const dataUri = dataUris[index];
+      if (!entry || !dataUri) continue;
+      const approxBytes = dataUri.length * 0.75;
+      if (totalBytes + approxBytes > MAX_TOTAL_FONT_BYTES) break;
+      totalBytes += approxBytes;
+      inlined.push(entry.cssText.replace(SRC_DECLARATION_RE, `src: url("${dataUri}")`));
+    }
+    return inlined.length > 0 ? inlined.join("\n") : null;
+  }
+
+  function stripExternal(clone) {
+    const images = clone.querySelectorAll("img");
+    for (let index = 0; index < images.length; index += 1) {
+      const src = images[index].getAttribute("src");
+      if (src && !src.startsWith("data:")) images[index].removeAttribute("src");
+    }
+
+    const elements = clone.querySelectorAll("*");
+    for (let index = 0; index < elements.length; index += 1) {
+      const style = elements[index].style.cssText;
+      if (style && style.includes("url(")) {
+        elements[index].style.cssText = style.replace(
+          /url\(["']?(?!data:)[^)"']*["']?\)/gi,
+          "none",
+        );
+      }
+    }
+  }
+
+  function emitScroll() {
+    scrollRaf = 0;
+    if (!scrollForwarding) return;
+    postToTrustedTop({
+      type: "INLINE_EDIT_SCROLL",
+      scrollX: window.scrollX,
+      scrollY: window.scrollY,
+    });
+  }
+
+  window.addEventListener(
+    "scroll",
+    function () {
+      if (!scrollForwarding || scrollRaf) return;
+      scrollRaf = requestAnimationFrame(emitScroll);
+    },
+    { passive: true, capture: true },
+  );
+
+  async function handleCaptureRequest(event) {
+    const requestId = event.data.requestId;
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    function postResult(dataUrl) {
+      postToTrustedTop({
+        type: "INLINE_EDIT_SCREENSHOT_RESULT",
+        requestId,
+        dataUrl,
+        scrollX,
+        scrollY,
+      });
+    }
+
+    try {
+      // Wait for any pending web fonts to resolve so both inline metrics and
+      // the @font-face inlining below see the same loaded faces.
+      if (document.fonts && document.fonts.ready) {
+        try {
+          await document.fonts.ready;
+        } catch (_error) {}
+      }
+
+      const clone = document.documentElement.cloneNode(true);
+      inlineAll(document.documentElement, clone);
+
+      const removedNodes = clone.querySelectorAll("script,link[rel=\"stylesheet\"],style");
+      for (let index = 0; index < removedNodes.length; index += 1) {
+        removedNodes[index].remove();
+      }
+
+      stripExternal(clone);
+
+      // Re-embed web fonts as data-URI @font-face rules so the SVG rasterizer
+      // can resolve them — external font URLs aren't fetched during
+      // foreignObject rendering, which would otherwise force a fallback face
+      // and change text metrics.
+      const inlinedFontCss = await buildInlinedFontCss();
+      if (inlinedFontCss) {
+        const styleEl = document.createElement("style");
+        styleEl.textContent = inlinedFontCss;
+        const head = clone.querySelector("head");
+        if (head) head.appendChild(styleEl);
+        else clone.insertBefore(styleEl, clone.firstChild);
+      }
+
+      const html = new XMLSerializer().serializeToString(clone);
+      const svg =
+        `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">` +
+        '<foreignObject width="100%" height="100%">' +
+        `<div xmlns="http://www.w3.org/1999/xhtml" style="width:${width}px;height:${height}px;overflow:hidden">` +
+        `<div style="position:relative;left:-${scrollX}px;top:-${scrollY}px">` +
+        html +
+        "</div></div></foreignObject></svg>";
+      const svgUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+      const image = new Image();
+      image.onload = function () {
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext("2d").drawImage(image, 0, 0);
+        postResult(canvas.toDataURL("image/png"));
+      };
+      image.onerror = function () {
+        postResult(null);
+      };
+      image.src = svgUrl;
+    } catch (_error) {
+      postResult(null);
+    }
+  }
+
+  window.addEventListener("message", function (event) {
+    if (!event.data) return;
+    // Only accept messages from the direct parent frame. Blocks sibling /
+    // unrelated-window postMessage senders that could otherwise reach us.
+    if (event.source !== window.parent) return;
+
+    const trustedParentOrigin = getTrustedParentOrigin(event);
+    if (!trustedParentOrigin) return;
+    trustedTopOrigin = trustedParentOrigin;
+
+    if (event.data.type === "INLINE_EDIT_SCROLL_START") {
+      scrollForwarding = true;
+      emitScroll();
+      return;
+    }
+
+    if (event.data.type === "INLINE_EDIT_SCROLL_STOP") {
+      scrollForwarding = false;
+      if (scrollRaf) cancelAnimationFrame(scrollRaf);
+      scrollRaf = 0;
+      return;
+    }
+
+    if (event.data.type !== "INLINE_EDIT_CAPTURE_REQUEST") return;
+
+    handleCaptureRequest(event);
+  });
+})();
+
+</script></body>
+</html>

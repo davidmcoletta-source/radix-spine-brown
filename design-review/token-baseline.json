@@ -1,0 +1,29 @@
+{
+  "note": "Frozen snapshot of neuro-edu design tokens. Any change to these values triggers a design review.",
+  "capturedFrom": "client/src/index.css",
+  "capturedAt": "2026-07-01",
+  "colors": {
+    "--bh-dark":            "#003337",
+    "--bh-teal":            "#25A685",
+    "--bh-rich-emerald":    "#1C8269",
+    "--bh-light-emerald":   "#8EDCCC",
+    "--bh-pale-emerald":    "#E8F8F4"
+  },
+  "typography": {
+    "--font-display": "'Raleway', system-ui, sans-serif",
+    "--font-body":    "Georgia, 'Times New Roman', serif"
+  },
+  "brandAlignment": {
+    "--bh-dark":          { "matches": "#003337 (Dark Emerald)",           "status": "OK" },
+    "--bh-teal":          { "matches": "#25A685 (web Brand Emerald)",      "status": "OK" },
+    "--bh-rich-emerald":  { "matches": "#1C8269 (web Rich Emerald / H2)",  "status": "OK" },
+    "--bh-light-emerald": { "matches": "#8EDCCC (web Brand Light Emerald)","status": "OK" },
+    "--bh-pale-emerald":  { "matches": "#E8F8F4 (pale emerald tint)",      "status": "OK" },
+    "--font-display":     { "matches": "Raleway (PDF-approved web replacement for Effra)", "status": "OK" },
+    "--font-body":        {
+      "matches": "PDF web sample uses Raleway for body; Georgia serif is a soft deviation",
+      "status": "SOFT_DEVIATION",
+      "resolution": "PDF permits Portada Text or Raleway for web body. Georgia is a serif substitute for Portada Text — acceptable per print-substitute philosophy, but flag on every review."
+    }
+  }
+}

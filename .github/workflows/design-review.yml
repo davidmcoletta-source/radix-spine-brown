@@ -1,0 +1,144 @@
+name: Design Review Gate
+
+# Runs on every PR. Skips the heavy work if no visual paths changed so the
+# required status check always resolves (green when nothing to review).
+on:
+  pull_request:
+
+concurrency:
+  group: design-review-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  design-review:
+    name: Screenshot diff + brand deviation report
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout PR head
+        uses: actions/checkout@v4
+        with:
+          path: candidate
+          fetch-depth: 0
+
+      - name: Detect visual-path changes
+        id: filter
+        working-directory: candidate
+        run: |
+          base_sha="${{ github.event.pull_request.base.sha }}"
+          head_sha="${{ github.event.pull_request.head.sha }}"
+          changed=$(git diff --name-only "$base_sha" "$head_sha" || true)
+          echo "$changed"
+          if echo "$changed" | grep -qE '^(client/(src/|public/|index\.html)|tailwind\.config\.ts|design-review/|scripts/design-review\.mjs)'; then
+            echo "visual=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "visual=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: No visual changes — skipping review
+        if: steps.filter.outputs.visual == 'false'
+        run: |
+          echo "✅ No visual code paths changed. Design review not required for this PR."
+
+      - name: Checkout base (main)
+        if: steps.filter.outputs.visual == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+          path: baseline
+
+      - name: Setup Node
+        if: steps.filter.outputs.visual == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Playwright
+        if: steps.filter.outputs.visual == 'true'
+        working-directory: candidate
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Install baseline deps
+        if: steps.filter.outputs.visual == 'true'
+        working-directory: baseline
+        run: npm ci
+
+      - name: Build baseline
+        if: steps.filter.outputs.visual == 'true'
+        working-directory: baseline
+        run: npm run build
+
+      - name: Build candidate
+        if: steps.filter.outputs.visual == 'true'
+        working-directory: candidate
+        run: npm run build
+
+      - name: Boot baseline server (port 5000)
+        if: steps.filter.outputs.visual == 'true'
+        working-directory: baseline
+        run: |
+          NODE_ENV=production PORT=5000 nohup node dist/index.cjs > /tmp/baseline.log 2>&1 &
+          for i in {1..20}; do curl -sSf http://localhost:5000/ > /dev/null && break; sleep 1; done
+
+      - name: Boot candidate server (port 5001)
+        if: steps.filter.outputs.visual == 'true'
+        working-directory: candidate
+        run: |
+          NODE_ENV=production PORT=5001 nohup node dist/index.cjs > /tmp/candidate.log 2>&1 &
+          for i in {1..20}; do curl -sSf http://localhost:5001/ > /dev/null && break; sleep 1; done
+
+      - name: Install sharp for side-by-side composites
+        if: steps.filter.outputs.visual == 'true'
+        working-directory: candidate
+        run: npm i --no-save sharp
+
+      - name: Run design review
+        id: review
+        if: steps.filter.outputs.visual == 'true'
+        working-directory: candidate
+        continue-on-error: true
+        run: |
+          node scripts/design-review.mjs \
+            --baseline-url http://localhost:5000 \
+            --candidate-url http://localhost:5001 \
+            --out design-review/out
+          echo "exit_code=$?" >> $GITHUB_OUTPUT
+
+      - name: Upload artifacts (screenshots + report)
+        if: steps.filter.outputs.visual == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: design-review-${{ github.sha }}
+          path: candidate/design-review/out/**
+          if-no-files-found: warn
+
+      - name: Post report as PR comment
+        if: steps.filter.outputs.visual == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = 'candidate/design-review/out/report.md';
+            if (!fs.existsSync(path)) {
+              core.setFailed('report.md missing — design-review did not produce output');
+              return;
+            }
+            const body = fs.readFileSync(path, 'utf-8');
+            const artifactURL = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: body + `\n\n---\n\n**Artifacts:** ${artifactURL} → design-review-${context.sha}`,
+            });
+
+      - name: Fail if deviations are blocking
+        if: steps.filter.outputs.visual == 'true' && steps.review.outcome == 'failure'
+        run: |
+          echo "❌ Design review reported blocking deviations. See PR comment + artifacts."
+          exit 1

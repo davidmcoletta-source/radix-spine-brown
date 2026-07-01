@@ -1,0 +1,13 @@
+# All visual code changes require review from repo owner.
+# This auto-requests David as a reviewer on any PR touching these paths.
+
+client/                          @davidmcoletta-source
+client/src/                      @davidmcoletta-source
+client/public/                   @davidmcoletta-source
+tailwind.config.ts               @davidmcoletta-source
+design-review/                   @davidmcoletta-source
+scripts/design-review.mjs        @davidmcoletta-source
+.github/                         @davidmcoletta-source
+
+# Anything else — still owned by David until other maintainers are added.
+*                                @davidmcoletta-source
