@@ -18,7 +18,9 @@
   --accent-soft: rgba(0, 138, 118, 0.12);
   --accent-ring: rgba(0, 138, 118, 0.4);
   --accent-on: #ffffff;
-  --brown-red: #ed1c24;
+  /* NOTE: Brown University Red (#ED1C24) is intentionally NOT defined as a token.
+     Per Brown Health brand standards, Brown Red is permitted only inside the
+     Brown Coat of Arms and must not appear anywhere else in the visual system. */
 
   /* Light: clean white / iOS systemGroupedBackground gray surfaces */
   --bg: #f2f2f7;
@@ -937,7 +939,7 @@ main { display: block; }
   left: 0; right: 0; bottom: 0;
   z-index: 95;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   height: calc(var(--tab-h) + env(safe-area-inset-bottom, 0));
   padding-bottom: env(safe-area-inset-bottom, 0);
   border-radius: 0;
@@ -2107,4 +2109,158 @@ details[open] .reveal-secondary-cue::after { content: ""; }
   .home-start-btn { width: 100%; justify-content: center; }
   .home-hero-hint { text-align: center; }
   .preview-figure { width: 130px; }
+}
+
+
+/* ==========================================================================
+   Result red-flag banner
+   Shown above the top-match card when the drawing suggests a pattern that a
+   single radiculopathy would not explain — bilateral marks, or symptoms
+   scattered across non-adjacent dermatomes. Populated by paint.js.
+   Amber (not red) is used deliberately: this is a caution to slow down and
+   escalate to a clinician, not an emergency alarm — the emergency line inside
+   the card still points to cauda-equina red flags in stronger language.
+   ========================================================================== */
+.result-redflag {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin: 0 0 18px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  background: #fff7e6;
+  border: 1px solid #f5c47a;
+  box-shadow: var(--shadow-sm);
+  color: #6b3d00;
+}
+.result-redflag-icon {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #b45309;
+}
+.result-redflag-icon svg { width: 100%; height: 100%; }
+.result-redflag-body { flex: 1 1 auto; min-width: 0; }
+.result-redflag-title {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-size: 15.5px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #6b3d00;
+}
+.result-redflag-text {
+  margin: 0 0 6px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #6b3d00;
+}
+.result-redflag-emergency {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #6b3d00;
+}
+.result-redflag-emergency strong { color: #6b3d00; font-weight: 700; }
+
+/* ==========================================================================
+   Print stylesheet
+   Optimises the result page for a one-page take-to-appointment handout.
+   Strategy:
+     - Hide site chrome (nav, tab bar, footer, non-essential actions).
+     - Show only the guided-reveal phase — even if the user prints while a
+       reference page is open, we still want the drawing + top-match card if
+       one exists; but the reference pages are separately print-viable too.
+     - Force light backgrounds, remove glass blurs, kill drop shadows.
+     - Keep the red-flag banner and caveat card intact.
+   Triggered from the "Print / Save as PDF" button (data-guide-print), which
+   just calls window.print(); browsers offer "Save as PDF" from the same
+   dialog on every modern platform.
+   ========================================================================== */
+@media print {
+  @page { margin: 12mm; }
+  html, body { background: #ffffff !important; color: #000000 !important; }
+
+  /* Kill chrome. The top nav-bar's brand mark is preserved deliberately so a
+     paper handout still identifies the tool that produced it — but hide the
+     nav-links pill row and the mobile tab-bar, both of which are noise on
+     paper and rely on interactivity that print cannot support. */
+  .nav-bar .nav-links,
+  .tab-bar,
+  .skip,
+  .guide-reveal-actions,
+  .guide-copy-status,
+  #symptom-guide .guide-intro,
+  #symptom-guide .guide-paint {
+    display: none !important;
+  }
+
+  /* Neutralise glass / blur / shadow */
+  .glass, .glass-strong, .card, .caveat-card, .map-card, .result-redflag {
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    border: 1px solid #cccccc !important;
+  }
+
+  /* Keep the red-flag amber background so it still reads as a caution in print */
+  .result-redflag {
+    background: #fff7e6 !important;
+    border: 1px solid #b45309 !important;
+    color: #6b3d00 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .result-redflag-title,
+  .result-redflag-text,
+  .result-redflag-emergency,
+  .result-redflag-emergency strong { color: #6b3d00 !important; }
+
+  /* Result content: expand to full width, avoid awkward page breaks.
+     Only the currently-active SPA section prints. Sections that the router
+     has already toggled off carry the [hidden] attribute; we must NOT force
+     them visible here, otherwise printing the symptom result would spill the
+     Cervical / Thoracic / Lumbar / Sources reference pages onto the page. */
+  [hidden] { display: none !important; }
+  section[data-page]:not([hidden]) { display: block !important; }
+  main { display: block !important; }
+  #symptom-guide,
+  #guide-reveal,
+  .guide-result,
+  .reveal-cards,
+  .reveal-card,
+  .map-card,
+  .caveat-card { break-inside: avoid; page-break-inside: avoid; }
+  /* Within the symptom page, only the reveal (results) phase should print —
+     never the intro region picker or the paint canvas itself. */
+  #symptom-guide .guide-phase[hidden] { display: none !important; }
+  #guide-reveal:not([hidden]) { display: block !important; }
+  .guide-headline { font-size: 20pt !important; margin-bottom: 6pt !important; }
+  .guide-subtle  { font-size: 11pt !important; line-height: 1.4 !important; }
+
+  /* Make sure links print with their URL so a paper handout is auditable */
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    color: #444444;
+    word-break: break-all;
+  }
+  /* But do not decorate internal anchors */
+  a[href^="#"]::after,
+  a[href^="javascript:"]::after { content: ""; }
+
+  /* Footer stamp so a printed page identifies itself */
+  .guide-result::after {
+    content: "Norman Prince Spine Institute — Nerve Root Localizer  ·  Brown University Health  ·  Educational tool, not a diagnosis.";
+    display: block;
+    margin-top: 14pt;
+    padding-top: 8pt;
+    border-top: 1px solid #cccccc;
+    font-size: 9pt;
+    color: #555555;
+  }
 }
