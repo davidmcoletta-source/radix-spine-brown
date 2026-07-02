@@ -1588,37 +1588,38 @@
   }
 
   // ------------------------------------------------------------------
-  // Safety red-flag detection
+  // Safety-review banner
   //
   // A single radiculopathy is fundamentally a UNILATERAL, single-nerve-root
-  // problem. When the paint drawing shows the opposite pattern we surface an
-  // amber banner urging the patient to talk with a clinician promptly, and
-  // reminding them of the cauda-equina emergency red flags. This is a caution,
-  // not a diagnosis — the top-match card and its overlap caveats still show.
+  // problem. When the paint drawing shows a pattern that plainly cannot be one
+  // pinched nerve we surface a NEUTRAL amber banner suggesting the patient
+  // review the drawing with their care team. This is intentionally NOT urgent
+  // language — cauda-equina red flags live in their own dedicated card lower
+  // on the page, where they belong with proper context. Adjacent-dermatome
+  // patterns (e.g. L4/L5/S1 or C6/C7) are common radiculopathies and MUST
+  // NEVER trigger the banner, no matter how many marks the drawing contains.
   //
-  // Two triggers, either sufficient:
-  //   1) Bilateral marks on a front/back full-body view. Marks with view="front"
-  //      or view="back" have x in the panel's viewBox coordinate; on those
-  //      views the body midline sits at x=50, so meaningful marks on BOTH sides
-  //      of the midline (with a small dead-zone around it to ignore axial /
-  //      midline paints) is a bilateral signal.
-  //   2) Marks distributed across many distinct dermatome areas — a scatter
-  //      that a single root cannot explain. We use area count as a proxy.
+  // Two triggers, either sufficient — both are gated heavily:
+  //   1) Strong bilateral signal on a front/back full-body view. Requires
+  //      substantial territory on BOTH sides of the midline, with a wide
+  //      dead-zone so central lower-back scribbles or a stripe crossing the
+  //      spine do not fire it. A stray dab on the opposite side is ignored.
+  //   2) Genuinely non-contiguous ladder positions in the TOP scoring roots
+  //      (e.g. a C6 + L4 mix, or C5..C8 with a gap of ≥2 rungs). A contiguous
+  //      run of adjacent roots is normal multi-level radiculopathy, not
+  //      scatter, and is suppressed here.
   //
-  // BILATERAL_MIN_PER_SIDE is intentionally conservative: a single accidental
-  // dab on the opposite side should NOT trigger the banner. MULTI_AREA_MIN is
-  // similarly gated so a broad stroke that catches 3 adjacent dermatomes on
-  // one side does not fire it — those cases are handled by the existing
-  // "broadly uncertain" copy.
-  const BILATERAL_MIDLINE_DEADZONE = 6;   // viewBox units either side of x=50
-  const BILATERAL_MIN_PER_SIDE = 3;       // marks needed on EACH side to fire
-  const MULTI_AREA_MIN = 5;               // distinct dermatome areas to fire
+  // Additionally, if the top-scored root sits in a strong unilateral cluster
+  // with a contiguous adjacent neighbour, the banner is suppressed entirely.
+  // That is the canonical L5+S1 / C6+C7 pattern.
+  const BILATERAL_MIDLINE_DEADZONE = 12;   // viewBox units either side of x=50
+  const BILATERAL_MIN_PER_SIDE = 8;        // marks needed on EACH side to fire
+  const NONCONTIG_LADDER_GAP = 2;          // ladder rungs of gap to count as scatter
+  const SCATTER_MIN_STRONG_ROOTS = 3;      // distinct comparably-strong roots
 
-  function computeRedFlags(marks) {
+  function computeRedFlags(marks, ranked) {
     let left = 0, right = 0;
-    const areas = new Set();
     for (const m of marks) {
-      if (m.area) areas.add(m.area);
       // Only front/back full-body views have a meaningful left/right midline.
       // Hand, foot, and side views are already lateralised by definition.
       if (m.view !== "front" && m.view !== "back") continue;
@@ -1631,33 +1632,46 @@
       }
     }
     const bilateral = left >= BILATERAL_MIN_PER_SIDE && right >= BILATERAL_MIN_PER_SIDE;
-    const scattered = areas.size >= MULTI_AREA_MIN;
+
+    // Contiguous-cluster escape hatch: if the top gated roots form a
+    // contiguous adjacent run on the ladder (canonical single-level or
+    // two-adjacent-level radiculopathy), never fire the banner.
+    const gated = ranked ? eligibleScores(ranked) : [];
+    const topStrong = gated.length ? gated.filter((r) => r.score > 0 && r.score / gated[0].score >= MULTI_ROOT_RATIO) : [];
+    const topIdx = topStrong.map((r) => ROOT_LADDER.indexOf(r.root)).sort((a, b) => a - b);
+    let maxGap = 0;
+    for (let i = 1; i < topIdx.length; i++) maxGap = Math.max(maxGap, topIdx[i] - topIdx[i - 1]);
+    const contiguousUnilateralCluster = topIdx.length >= 1 && maxGap <= 1 && !bilateral;
+    if (contiguousUnilateralCluster) return { show: false };
+
+    const scattered = topStrong.length >= SCATTER_MIN_STRONG_ROOTS && maxGap >= NONCONTIG_LADDER_GAP;
+
     if (!bilateral && !scattered) return { show: false };
     if (bilateral && scattered) {
       return {
         show: true,
-        headline: "This pattern is not typical for a single pinched nerve",
-        text: "Your drawing covers both sides of the body and spans several nerve areas at once. Please talk with a clinician promptly — the cause may be something other than a single radiculopathy.",
+        headline: "Worth reviewing this with your care team",
+        text: "Your drawing covers both sides of the body and several nerve areas at once. That can happen for many reasons — overlapping nerves, muscle-based pain, or more than one issue at the same time. Bring this pattern up at your next visit.",
       };
     }
     if (bilateral) {
       return {
         show: true,
-        headline: "Symptoms on both sides — please talk with a clinician promptly",
-        text: "A single pinched nerve almost always affects one side of the body at a time. Bilateral symptoms should be reviewed by a clinician rather than self-managed.",
+        headline: "Symptoms on both sides — worth mentioning to your care team",
+        text: "A single pinched nerve usually affects one side of the body at a time. Bilateral symptoms are worth reviewing with your clinician when you see them, since the cause may not be a single nerve root.",
       };
     }
     return {
       show: true,
-      headline: "Symptoms in several separate areas",
-      text: "Your drawing spans several nerve areas that do not neatly line up with a single spinal level. Please talk with a clinician promptly so the pattern can be sorted out on exam.",
+      headline: "Symptoms span several separate areas",
+      text: "Your drawing covers nerve areas that are not next to each other on the spine, which one pinched nerve alone would not usually explain. It is worth reviewing this pattern with your care team.",
     };
   }
 
-  function applyRedFlagBanner(marks) {
+  function applyRedFlagBanner(marks, ranked) {
     const banner = $("#guide-redflag");
     if (!banner) return;
-    const flag = computeRedFlags(marks);
+    const flag = computeRedFlags(marks, ranked);
     if (!flag.show) { banner.hidden = true; return; }
     const title = $("#guide-redflag-title");
     const text = $("#guide-redflag-text");
@@ -1671,9 +1685,11 @@
     const ranked = computeScores();
     const gated = eligibleScores(ranked); // anatomical region gate
 
-    // Safety banner is evaluated on every render. In the empty state we hide it
-    // explicitly below (a user with no marks yet cannot have a red flag).
-    applyRedFlagBanner(state.marks);
+    // Safety-review banner is evaluated on every render, using the ranked
+    // scores so the contiguous-cluster escape hatch can suppress the banner
+    // for canonical unilateral radiculopathy patterns (L5+S1, C6+C7, etc.).
+    // In the empty state we hide it explicitly below.
+    applyRedFlagBanner(state.marks, ranked);
 
     if (!gated.length || gated[0].score <= 0) {
       const banner0 = $("#guide-redflag");
