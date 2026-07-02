@@ -414,6 +414,34 @@ const ROOT_LABELS = {
 };
 
 // ===== Human dermatome reference map sources (verbatim asset wiring) =====
+//
+// Base pattern: for cervical/lumbar-sacral roots we start with the v6 base
+// map (Ralf Stephan / Wikimedia). Each root then gets a per-file SVG whose
+// filename encodes the root. The overrides below replace specific roots
+// with hand-tuned iterations when the v6 rendering was clinically wrong or
+// visually misleading. Each override exists for a specific reason — do NOT
+// revert them to v6 without checking the archive for context:
+//
+//   L5 → v6-L5-buttockfix.svg
+//        v6 L5 patch missed the buttock strip; the -buttockfix variant
+//        adds the posterior gluteal component that patients actually feel.
+//   C6 → v11-C6-outer-lateral-arm.svg
+//        v6 C6 highlighted only the thumb; v7–v10 iterations progressively
+//        extended the lateral arm strip. v11 is the current clinically
+//        correct version (outer lateral arm + thumb, no forearm bleed).
+//   C7 → v12-C7-radiating.svg
+//        v6 C7 was a single dot on the middle finger. v12 shows the full
+//        radiating pattern down the posterior arm to the middle finger.
+//   L4 → v14-L4-fullregion.svg
+//        v6 L4 missed the anterior thigh + medial calf continuity. v13
+//        made it radiating, v14 filled the whole region — patients paint
+//        the whole territory, not just a line, so v14 matches perception.
+//   S1 → v14-S1-fullregion.svg
+//        Same story as L4: v12/v13 radiating variants under-highlighted
+//        the posterior calf + heel + sole. v14 fills the full region.
+//
+// Superseded iterations (v7, v8, v9, v10, v12-S1, v13-*) are preserved in
+// assets/_archive/ for provenance and are NOT deployed to the served site.
 const HUMAN_DERMATOME_SRC = "./assets/dermatomes-highlight-v6-default.svg";
 const DERMATOME_HIGHLIGHT_SOURCES = Object.fromEntries(
   [
