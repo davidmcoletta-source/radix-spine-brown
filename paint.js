@@ -1587,12 +1587,97 @@
     if (active) active.focus();
   }
 
+  // ------------------------------------------------------------------
+  // Safety red-flag detection
+  //
+  // A single radiculopathy is fundamentally a UNILATERAL, single-nerve-root
+  // problem. When the paint drawing shows the opposite pattern we surface an
+  // amber banner urging the patient to talk with a clinician promptly, and
+  // reminding them of the cauda-equina emergency red flags. This is a caution,
+  // not a diagnosis — the top-match card and its overlap caveats still show.
+  //
+  // Two triggers, either sufficient:
+  //   1) Bilateral marks on a front/back full-body view. Marks with view="front"
+  //      or view="back" have x in the panel's viewBox coordinate; on those
+  //      views the body midline sits at x=50, so meaningful marks on BOTH sides
+  //      of the midline (with a small dead-zone around it to ignore axial /
+  //      midline paints) is a bilateral signal.
+  //   2) Marks distributed across many distinct dermatome areas — a scatter
+  //      that a single root cannot explain. We use area count as a proxy.
+  //
+  // BILATERAL_MIN_PER_SIDE is intentionally conservative: a single accidental
+  // dab on the opposite side should NOT trigger the banner. MULTI_AREA_MIN is
+  // similarly gated so a broad stroke that catches 3 adjacent dermatomes on
+  // one side does not fire it — those cases are handled by the existing
+  // "broadly uncertain" copy.
+  const BILATERAL_MIDLINE_DEADZONE = 6;   // viewBox units either side of x=50
+  const BILATERAL_MIN_PER_SIDE = 3;       // marks needed on EACH side to fire
+  const MULTI_AREA_MIN = 5;               // distinct dermatome areas to fire
+
+  function computeRedFlags(marks) {
+    let left = 0, right = 0;
+    const areas = new Set();
+    for (const m of marks) {
+      if (m.area) areas.add(m.area);
+      // Only front/back full-body views have a meaningful left/right midline.
+      // Hand, foot, and side views are already lateralised by definition.
+      if (m.view !== "front" && m.view !== "back") continue;
+      if (m.x < 50 - BILATERAL_MIDLINE_DEADZONE) {
+        // We do not need to disambiguate patient-left from patient-right —
+        // we only need to know that BOTH sides of the body have marks.
+        m.view === "front" ? right++ : left++;
+      } else if (m.x > 50 + BILATERAL_MIDLINE_DEADZONE) {
+        m.view === "front" ? left++ : right++;
+      }
+    }
+    const bilateral = left >= BILATERAL_MIN_PER_SIDE && right >= BILATERAL_MIN_PER_SIDE;
+    const scattered = areas.size >= MULTI_AREA_MIN;
+    if (!bilateral && !scattered) return { show: false };
+    if (bilateral && scattered) {
+      return {
+        show: true,
+        headline: "This pattern is not typical for a single pinched nerve",
+        text: "Your drawing covers both sides of the body and spans several nerve areas at once. Please talk with a clinician promptly — the cause may be something other than a single radiculopathy.",
+      };
+    }
+    if (bilateral) {
+      return {
+        show: true,
+        headline: "Symptoms on both sides — please talk with a clinician promptly",
+        text: "A single pinched nerve almost always affects one side of the body at a time. Bilateral symptoms should be reviewed by a clinician rather than self-managed.",
+      };
+    }
+    return {
+      show: true,
+      headline: "Symptoms in several separate areas",
+      text: "Your drawing spans several nerve areas that do not neatly line up with a single spinal level. Please talk with a clinician promptly so the pattern can be sorted out on exam.",
+    };
+  }
+
+  function applyRedFlagBanner(marks) {
+    const banner = $("#guide-redflag");
+    if (!banner) return;
+    const flag = computeRedFlags(marks);
+    if (!flag.show) { banner.hidden = true; return; }
+    const title = $("#guide-redflag-title");
+    const text = $("#guide-redflag-text");
+    if (title) title.textContent = flag.headline;
+    if (text) text.textContent = flag.text;
+    banner.hidden = false;
+  }
+
   function renderReveal() {
     const host = $("#guide-result-cards");
     const ranked = computeScores();
     const gated = eligibleScores(ranked); // anatomical region gate
 
+    // Safety banner is evaluated on every render. In the empty state we hide it
+    // explicitly below (a user with no marks yet cannot have a red flag).
+    applyRedFlagBanner(state.marks);
+
     if (!gated.length || gated[0].score <= 0) {
+      const banner0 = $("#guide-redflag");
+      if (banner0) banner0.hidden = true;
       if (host) host.innerHTML = `<div class="reveal-card is-empty">We could not find a pattern yet. Tap <strong>Edit drawing</strong> and mark the spots where you feel symptoms.</div>`;
       const badge = $("[data-testid='text-symptom-map-active-root']");
       if (badge) badge.textContent = "No root selected";
@@ -1697,6 +1782,11 @@
     if (learnBtn) learnBtn.addEventListener("click", gotoLearnMore);
     const copyBtn = $("[data-guide-copy]");
     if (copyBtn) copyBtn.addEventListener("click", copyDrawingForEHR);
+    // Print / Save as PDF: browsers offer "Save as PDF" from the same dialog on
+    // every modern platform, so a single window.print() covers both use cases.
+    // The @media print rules in styles.css handle the actual page layout.
+    const printBtn = $("[data-guide-print]");
+    if (printBtn) printBtn.addEventListener("click", () => window.print());
     $$("[data-guide-startover]").forEach((b) => b.addEventListener("click", startOver));
 
     // Chip tabs: click to swap the detail panel; left/right arrows to move focus
