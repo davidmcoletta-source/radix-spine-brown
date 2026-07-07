@@ -8,7 +8,7 @@
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-const PAGES = ["landing", "cervical", "thoracic", "lumbar", "symptom", "sources", "compare", "spine"];
+const PAGES = ["landing", "cervical", "thoracic", "lumbar", "symptom", "sources", "compare"];
 
 const state = {
   level: "L4-L5",
@@ -1117,121 +1117,6 @@ function initCompareTool() {
 }
 
 // ===================================================================
-// Interactive spine map — a clickable sagittal column
-// ===================================================================
-// A schematic vertebral column. Selecting a disc level shows that level's
-// affected root and a one-line summary, plus a jump into the full region page.
-// Data-driven from the existing level → root maps, so it stays in sync with
-// the reference pages automatically.
-function spineSegments() {
-  const segs = [];
-  // Cervical
-  if (typeof CERVICAL_LEVELS !== "undefined") {
-    CERVICAL_LEVELS.forEach((lvl) => {
-      segs.push({ region: "cervical", level: lvl, root: CERVICAL_ROOT_BY_LEVEL[lvl] });
-    });
-  }
-  // Thoracic
-  if (typeof THORACIC_LEVELS !== "undefined") {
-    THORACIC_LEVELS.forEach((lvl) => {
-      segs.push({ region: "thoracic", level: lvl, root: THORACIC_ROOT_BY_LEVEL[lvl] });
-    });
-  }
-  // Lumbar / sacral (default paracentral => traversing root)
-  if (typeof DISC_LEVELS !== "undefined") {
-    DISC_LEVELS.forEach((lvl) => {
-      segs.push({ region: "lumbar", level: lvl, root: TRAVERSING_ROOT[lvl] });
-    });
-  }
-  return segs;
-}
-
-const spineState = { region: "lumbar", level: "L4-L5" };
-
-function spineRootInfo(seg) {
-  const map = seg.region === "cervical"
-    ? (typeof CERVICAL_ROOT_DATA !== "undefined" ? CERVICAL_ROOT_DATA : {})
-    : seg.region === "thoracic"
-      ? (typeof THORACIC_ROOT_DATA !== "undefined" ? THORACIC_ROOT_DATA : {})
-      : (typeof ROOT_DATA !== "undefined" ? ROOT_DATA : {});
-  return map[seg.root] || {};
-}
-
-function renderSpineColumn() {
-  const host = $("#spine-column");
-  if (!host) return;
-  const segs = spineSegments();
-  const regionClass = { cervical: "seg-cervical", thoracic: "seg-thoracic", lumbar: "seg-lumbar" };
-  host.innerHTML = segs.map((seg) => {
-    const on = seg.level === spineState.level;
-    return `<button type="button" class="spine-seg ${regionClass[seg.region]}${on ? " is-active" : ""}"`
-      + ` data-spine-level="${seg.level}" data-spine-region="${seg.region}"`
-      + ` aria-pressed="${on}" data-testid="spine-seg-${seg.level}">`
-      + `<span class="spine-seg-level">${seg.level.replace("-", "–")}</span>`
-      + `<span class="spine-seg-root">${seg.root}</span>`
-      + `</button>`;
-  }).join("");
-}
-
-function renderSpineDetail() {
-  const segs = spineSegments();
-  const seg = segs.find((s) => s.level === spineState.level) || segs[0];
-  if (!seg) return;
-  spineState.region = seg.region;
-  const info = spineRootInfo(seg);
-  const host = $("#spine-detail");
-  if (!host) return;
-  const regionLabel = { cervical: "Cervical", thoracic: "Thoracic", lumbar: "Lumbar / sacral" }[seg.region];
-  const rows = [
-    info.sensory ? { l: "Dermatome (sensory)", t: info.sensory } : null,
-    info.motor ? { l: "Myotome (motor)", t: info.motor } : null,
-    info.reflex ? { l: "Reflex", t: info.reflex } : null,
-    info.bedside ? { l: "Bedside clue", t: info.bedside } : null,
-  ].filter(Boolean);
-  host.innerHTML = `
-    <div class="spine-detail-head glass">
-      <div>
-        <span class="readout-eyebrow">${regionLabel} · ${seg.level.replace("-", "–")}</span>
-        <h2 class="readout-title">Affected root: ${seg.root}</h2>
-      </div>
-      <button type="button" class="pill-btn" id="spine-open-region" data-testid="button-spine-open-region">Open full details ›</button>
-    </div>
-    <div class="deficit-list glass" role="list">
-      ${rows.map((r) => `<div class="deficit-row" role="listitem"><div><h3>${r.l}</h3><p>${r.t}</p></div></div>`).join("")}
-    </div>`;
-}
-
-function renderSpineMap() {
-  renderSpineColumn();
-  renderSpineDetail();
-}
-
-function spineOpenRegion() {
-  const seg = spineSegments().find((s) => s.level === spineState.level);
-  if (!seg) return;
-  if (seg.region === "cervical" && typeof setCervicalLevel === "function") setCervicalLevel(seg.level);
-  else if (seg.region === "thoracic" && typeof setThoracicLevel === "function") setThoracicLevel(seg.level);
-  else if (seg.region === "lumbar" && typeof setLevel === "function") setLevel(seg.level);
-  if (typeof setPage === "function") setPage(seg.region);
-}
-
-function initSpineMap() {
-  const page = $('section[data-page="spine"]');
-  if (!page) return;
-  renderSpineMap();
-  page.addEventListener("click", (e) => {
-    const seg = e.target.closest("[data-spine-level]");
-    if (seg) {
-      spineState.level = seg.dataset.spineLevel;
-      spineState.region = seg.dataset.spineRegion;
-      renderSpineMap();
-      return;
-    }
-    if (e.target.closest("#spine-open-region")) spineOpenRegion();
-  });
-}
-
-// ===================================================================
 // Developer-only integrity check
 // ===================================================================
 // Warns (console only) if any clinical root resolves to a dermatome asset that
@@ -1301,7 +1186,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initKeyboard();
   initMapViewer();
   initCompareTool();
-  initSpineMap();
 
   syncActiveStates();
 

@@ -2303,60 +2303,6 @@ details[open] .reveal-secondary-cue::after { content: ""; }
 .reveal-root-chip.is-active .reveal-chip-strength { color: color-mix(in srgb, #fff 88%, var(--accent)); }
 
 /* ===================================================================
-   Interactive spine map
-   =================================================================== */
-.spine-layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-  align-items: start;
-}
-@media (min-width: 860px) {
-  .spine-layout { grid-template-columns: minmax(220px, 300px) 1fr; }
-  .spine-rail { position: sticky; top: calc(var(--nav-h) + 16px); }
-}
-.spine-rail { padding: 16px; }
-.spine-rail-legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-bottom: 14px; }
-.spine-key { font-size: 11px; font-weight: 650; color: var(--ink-2); display: inline-flex; align-items: center; gap: 6px; }
-.spine-key::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: var(--accent); }
-.spine-key-cervical::before { background: color-mix(in srgb, var(--accent) 55%, #fff); }
-.spine-key-thoracic::before { background: var(--accent); }
-.spine-key-lumbar::before { background: color-mix(in srgb, var(--accent) 78%, #000); }
-.spine-column { display: flex; flex-direction: column; gap: 4px; }
-.spine-seg {
-  display: flex; align-items: center; justify-content: space-between; gap: 10px;
-  width: 100%;
-  border: 1px solid transparent;
-  border-left: 4px solid var(--accent);
-  border-radius: var(--radius-sm);
-  background: var(--surface-strong);
-  padding: 9px 12px;
-  cursor: pointer;
-  font: inherit;
-  color: var(--ink);
-  transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
-}
-.spine-seg.seg-cervical { border-left-color: color-mix(in srgb, var(--accent) 55%, #fff); }
-.spine-seg.seg-thoracic { border-left-color: var(--accent); }
-.spine-seg.seg-lumbar { border-left-color: color-mix(in srgb, var(--accent) 78%, #000); }
-.spine-seg:hover { background: color-mix(in srgb, var(--accent) 8%, var(--surface-strong)); }
-.spine-seg:active { transform: scale(0.99); }
-.spine-seg:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.spine-seg.is-active {
-  background: var(--accent-soft);
-  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
-  box-shadow: var(--shadow-sm);
-}
-.spine-seg-level { font-weight: 650; font-size: 14px; }
-.spine-seg-root { font-weight: 700; color: var(--accent); font-size: 14px; }
-.spine-detail-head {
-  display: flex; align-items: center; justify-content: space-between; gap: 14px;
-  flex-wrap: wrap;
-  padding: 16px 18px;
-  margin-bottom: 14px;
-}
-
-/* ===================================================================
    Compare tool
    =================================================================== */
 .compare-presets { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
