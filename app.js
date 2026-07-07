@@ -8,7 +8,7 @@
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-const PAGES = ["landing", "cervical", "thoracic", "lumbar", "symptom", "sources"];
+const PAGES = ["landing", "cervical", "thoracic", "lumbar", "symptom", "sources", "compare"];
 
 const state = {
   level: "L4-L5",
@@ -991,6 +991,131 @@ function initKeyboard() {
   wire(".thoracic-levels", THORACIC_LEVELS, () => state.thoracicLevel, setThoracicLevel);
 }
 
+
+// ===================================================================
+// Compare tool — side-by-side of any two nerve roots
+// ===================================================================
+// A lightweight reference that puts two roots next to each other and
+// highlights where their sensory / motor / reflex / bedside profiles differ.
+// Reuses the unified ROOT_LABELS map (cervical + thoracic + lumbosacral), so
+// no new clinical content is introduced here.
+const COMPARE_FIELDS = [
+  { key: "sensory", label: "Dermatome (sensory)" },
+  { key: "motor", label: "Myotome (motor)" },
+  { key: "reflex", label: "Reflex" },
+  { key: "bedside", label: "Bedside clue" },
+];
+
+// Ordered root list for the pickers, head-to-tail down the neuraxis.
+const COMPARE_ROOTS = ["C4","C5","C6","C7","C8","T1","T4","T6","T8","T10","T12","L1","L2","L3","L4","L5","S1"]
+  .filter((r) => (typeof ROOT_LABELS !== "undefined") && ROOT_LABELS[r]);
+
+// Classic confusables offered as one-tap presets.
+const COMPARE_PRESETS = [
+  { a: "L5", b: "S1", note: "the most common lumbar mix-up" },
+  { a: "L4", b: "L5", note: "adjacent lower-limb roots" },
+  { a: "C6", b: "C7", note: "adjacent cervical roots" },
+  { a: "C8", b: "T1", note: "hand intrinsics vs. thoracic" },
+];
+
+const compareState = { a: "L5", b: "S1" };
+
+function compareRootField(root, key) {
+  const info = (typeof ROOT_LABELS !== "undefined" && ROOT_LABELS[root]) || {};
+  return info[key] || "—";
+}
+
+function renderComparePickers() {
+  ["a", "b"].forEach((side) => {
+    const host = $(`#compare-picker-${side}`);
+    if (!host) return;
+    host.innerHTML = COMPARE_ROOTS.map((r) => {
+      const on = compareState[side] === r;
+      return `<button type="button" class="compare-chip${on ? " is-active" : ""}"`
+        + ` role="radio" aria-checked="${on}" tabindex="${on ? "0" : "-1"}"`
+        + ` data-compare-side="${side}" data-compare-root="${r}"`
+        + ` data-testid="compare-${side}-${r}">${r}</button>`;
+    }).join("");
+  });
+  const presetHost = $("#compare-presets");
+  if (presetHost) {
+    presetHost.innerHTML = COMPARE_PRESETS.map((p) =>
+      `<button type="button" class="compare-preset" data-compare-preset="${p.a}:${p.b}"`
+      + ` data-testid="compare-preset-${p.a}-${p.b}"><strong>${p.a} vs ${p.b}</strong><span>${p.note}</span></button>`
+    ).join("");
+  }
+}
+
+function renderCompareTable() {
+  const { a, b } = compareState;
+  const head = $("#compare-heads");
+  if (head) {
+    head.innerHTML =
+      `<div class="compare-col-head"><span class="compare-col-eyebrow">Root A</span><span class="compare-col-root">${a}</span></div>`
+      + `<div class="compare-col-head"><span class="compare-col-eyebrow">Root B</span><span class="compare-col-root">${b}</span></div>`;
+  }
+  const body = $("#compare-body");
+  if (!body) return;
+  body.innerHTML = COMPARE_FIELDS.map((f) => {
+    const va = compareRootField(a, f.key);
+    const vb = compareRootField(b, f.key);
+    const differs = va !== vb;
+    return `<div class="compare-field${differs ? " differs" : ""}">
+        <div class="compare-field-label">${f.label}${differs ? '<span class="compare-diff-tag">differs</span>' : ''}</div>
+        <div class="compare-cells">
+          <p class="compare-cell">${va}</p>
+          <p class="compare-cell">${vb}</p>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+function renderCompare() {
+  renderComparePickers();
+  renderCompareTable();
+}
+
+function setCompareRoot(side, root) {
+  if (side !== "a" && side !== "b") return;
+  if (!ROOT_LABELS[root]) return;
+  compareState[side] = root;
+  renderCompare();
+}
+
+function initCompareTool() {
+  const page = $('section[data-page="compare"]');
+  if (!page) return;
+  renderCompare();
+  page.addEventListener("click", (e) => {
+    const chip = e.target.closest("[data-compare-root]");
+    if (chip) { setCompareRoot(chip.dataset.compareSide, chip.dataset.compareRoot); return; }
+    const preset = e.target.closest("[data-compare-preset]");
+    if (preset) {
+      const [a, b] = preset.dataset.comparePreset.split(":");
+      compareState.a = a; compareState.b = b;
+      renderCompare();
+    }
+  });
+  // Arrow-key navigation within each root picker (radiogroup pattern).
+  ["a", "b"].forEach((side) => {
+    const host = $(`#compare-picker-${side}`);
+    if (!host) return;
+    host.addEventListener("keydown", (e) => {
+      const idx = COMPARE_ROOTS.indexOf(compareState[side]);
+      if (idx < 0) return;
+      let next = null;
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") next = Math.min(COMPARE_ROOTS.length - 1, idx + 1);
+      else if (e.key === "ArrowLeft" || e.key === "ArrowUp") next = Math.max(0, idx - 1);
+      if (next !== null && next !== idx) {
+        e.preventDefault();
+        setCompareRoot(side, COMPARE_ROOTS[next]);
+        const btns = host.querySelectorAll(".compare-chip");
+        if (btns[next]) btns[next].focus();
+      }
+    });
+  });
+}
+
 // ===================================================================
 // Developer-only integrity check
 // ===================================================================
@@ -1060,6 +1185,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initMorphButtons();
   initKeyboard();
   initMapViewer();
+  initCompareTool();
 
   syncActiveStates();
 
