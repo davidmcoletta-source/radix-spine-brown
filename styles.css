@@ -2264,3 +2264,106 @@ details[open] .reveal-secondary-cue::after { content: ""; }
     color: #555555;
   }
 }
+
+/* ===================================================================
+   Ranked differential — match-strength meter on the reveal root chips
+   =================================================================== */
+.reveal-root-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 5px;
+  min-width: 104px;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  text-align: left;
+}
+.reveal-chip-root { font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; }
+.reveal-chip-meter {
+  height: 5px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  overflow: hidden;
+}
+.reveal-chip-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--accent);
+  transition: width 0.35s var(--ease, ease);
+}
+.reveal-chip-strength {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-3);
+  letter-spacing: 0.01em;
+}
+.reveal-root-chip.is-active .reveal-chip-meter { background: color-mix(in srgb, #fff 35%, transparent); }
+.reveal-root-chip.is-active .reveal-chip-fill { background: #fff; }
+.reveal-root-chip.is-active .reveal-chip-strength { color: color-mix(in srgb, #fff 88%, var(--accent)); }
+
+/* ===================================================================
+   Compare tool
+   =================================================================== */
+.compare-presets { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+.compare-preset {
+  display: flex; flex-direction: column; gap: 2px;
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  background: var(--surface-strong);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  cursor: pointer;
+  font: inherit;
+  color: var(--ink);
+  text-align: left;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.compare-preset:hover { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.compare-preset strong { font-size: 14px; color: var(--accent); }
+.compare-preset span { font-size: 11px; color: var(--ink-3); }
+.compare-preset:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.compare-pickers { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 22px; }
+@media (min-width: 720px) { .compare-pickers { grid-template-columns: 1fr 1fr; } }
+.compare-picker { display: flex; flex-wrap: wrap; gap: 6px; }
+.compare-chip {
+  min-width: 44px; min-height: 40px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  background: var(--surface-strong);
+  color: var(--accent);
+  font: inherit; font-weight: 650;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.compare-chip:hover { background: var(--accent-soft); }
+.compare-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.compare-chip.is-active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.compare-table { padding: 4px 4px 8px; overflow: hidden; }
+.compare-heads, .compare-cells { display: grid; grid-template-columns: 1fr 1fr; }
+.compare-heads { gap: 0; padding: 14px 16px 6px; }
+.compare-col-head { display: flex; flex-direction: column; gap: 2px; padding-right: 14px; }
+.compare-col-eyebrow { font-size: 11px; font-weight: 650; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.04em; }
+.compare-col-root { font-size: 1.4rem; font-weight: 800; color: var(--accent); letter-spacing: -0.02em; }
+.compare-field { padding: 12px 16px; border-top: 1px solid color-mix(in srgb, var(--ink-3) 18%, transparent); }
+.compare-field-label {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 700; color: var(--ink-2);
+  text-transform: uppercase; letter-spacing: 0.03em;
+  margin-bottom: 8px;
+}
+.compare-field.differs { background: color-mix(in srgb, var(--accent) 6%, transparent); }
+.compare-diff-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.02em;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 999px;
+  padding: 2px 8px;
+  text-transform: none;
+}
+.compare-cells { gap: 0 18px; }
+.compare-cell { font-size: 14px; line-height: 1.5; color: var(--ink); margin: 0; padding-right: 4px; }
+
+/* Interactive-tools row: keep to two cards wide on all breakpoints. */
+@media (min-width: 680px) { .region-grid-tools { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1000px) { .region-grid-tools { grid-template-columns: 1fr 1fr; max-width: 760px; } }
