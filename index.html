@@ -26,6 +26,8 @@
       <button type="button" class="nav-link" data-open-page="cervical" data-testid="link-cervical">Cervical</button>
       <button type="button" class="nav-link" data-open-page="thoracic" data-testid="link-thoracic">Thoracic</button>
       <button type="button" class="nav-link" data-open-page="lumbar" data-testid="link-lumbar">Lumbar/Sacral</button>
+      <button type="button" class="nav-link" data-open-page="spine" data-testid="link-spine">Spine Map</button>
+      <button type="button" class="nav-link" data-open-page="compare" data-testid="link-compare">Compare</button>
       <button type="button" class="nav-link" data-open-page="sources" data-testid="link-sources">Sources</button>
     </nav>
 
@@ -98,6 +100,29 @@
             <span class="region-kicker">Lower extremity · sacral</span>
             <span class="region-title">Lumbar/Sacral</span>
             <span class="region-copy">L1–L2 through L5–S1 disc levels with morphology-sensitive traversing versus exiting root logic.</span>
+            <span class="region-chevron" aria-hidden="true">›</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="home-learn">
+        <div class="home-learn-head">
+          <h2 class="home-learn-title">Interactive tools</h2>
+          <p class="home-learn-sub">Explore the whole column at once, or compare two roots side by side.</p>
+        </div>
+        <div class="region-grid region-grid-tools" aria-label="Interactive tools">
+          <button type="button" class="region-card glass" data-open-page="spine" data-testid="button-launch-spine">
+            <span class="region-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M9 5h6M9 9h6M9 13h6M9 17h6"/></svg></span>
+            <span class="region-kicker">Whole spine</span>
+            <span class="region-title">Spine Map</span>
+            <span class="region-copy">A clickable column — pick any disc level to see its root and findings, then open the full page.</span>
+            <span class="region-chevron" aria-hidden="true">›</span>
+          </button>
+          <button type="button" class="region-card glass" data-open-page="compare" data-testid="button-launch-compare">
+            <span class="region-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="7" height="16" rx="1.6"/><rect x="13.5" y="4" width="7" height="16" rx="1.6"/></svg></span>
+            <span class="region-kicker">Two roots</span>
+            <span class="region-title">Compare</span>
+            <span class="region-copy">Line up any two nerve roots and highlight exactly where their patterns differ.</span>
             <span class="region-chevron" aria-hidden="true">›</span>
           </button>
         </div>
@@ -651,6 +676,74 @@
         </div>
 
       </div>
+    </div>
+  </section>
+
+  <!-- ============ SPINE MAP (interactive column) ============ -->
+  <section class="page" data-page="spine" hidden>
+    <div class="container">
+      <div class="page-intro">
+        <p class="eyebrow">Interactive reference · whole spine</p>
+        <h1 class="large-title">Spine map — pick a level, see its root.</h1>
+        <p class="lede">
+          Select any disc level down the column to see the affected nerve root and its key
+          sensory, motor, and reflex findings — then jump straight into the full region page.
+        </p>
+      </div>
+
+      <div class="spine-layout">
+        <aside class="spine-rail glass" aria-label="Spine levels, top to bottom">
+          <div class="spine-rail-legend" aria-hidden="true">
+            <span class="spine-key spine-key-cervical">Cervical</span>
+            <span class="spine-key spine-key-thoracic">Thoracic</span>
+            <span class="spine-key spine-key-lumbar">Lumbar / sacral</span>
+          </div>
+          <div class="spine-column" id="spine-column" role="group" aria-label="Disc levels"></div>
+        </aside>
+        <div class="spine-detail" id="spine-detail" aria-live="polite"></div>
+      </div>
+
+      <p class="hero-note glass-subtle">
+        Educational tool only. Levels map to the most common single affected root; correlate with
+        the exam, imaging, and red flags.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ COMPARE (side-by-side roots) ============ -->
+  <section class="page" data-page="compare" hidden>
+    <div class="container">
+      <div class="page-intro">
+        <p class="eyebrow">Reference · side-by-side</p>
+        <h1 class="large-title">Compare two nerve roots.</h1>
+        <p class="lede">
+          Put any two roots next to each other. Rows where the two differ are flagged, so the
+          distinctions that matter — L5 versus S1, C6 versus C7 — stand out at a glance.
+        </p>
+      </div>
+
+      <div class="compare-presets" id="compare-presets" aria-label="Common comparisons"></div>
+
+      <div class="compare-pickers">
+        <div class="compare-picker-group">
+          <h2 class="section-title">Root A</h2>
+          <div class="segmented compare-picker" id="compare-picker-a" role="radiogroup" aria-label="Root A"></div>
+        </div>
+        <div class="compare-picker-group">
+          <h2 class="section-title">Root B</h2>
+          <div class="segmented compare-picker" id="compare-picker-b" role="radiogroup" aria-label="Root B"></div>
+        </div>
+      </div>
+
+      <div class="compare-table glass" aria-live="polite">
+        <div class="compare-heads" id="compare-heads"></div>
+        <div class="compare-body" id="compare-body"></div>
+      </div>
+
+      <p class="hero-note glass-subtle">
+        Educational tool only. Profiles summarise typical single-root patterns; real presentations
+        overlap and must be correlated with the exam and imaging.
+      </p>
     </div>
   </section>
 

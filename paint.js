@@ -1545,19 +1545,37 @@
   let revealLikely = [];
   let revealActiveRoot = null;
 
+  // Translate a raw score gap into soft, patient-friendly language. Never shows
+  // a number — just a relative sense of how well each area fits the drawing.
+  function matchStrengthLabel(ratio) {
+    if (ratio >= 0.85) return "strong match";
+    if (ratio >= 0.55) return "moderate match";
+    return "possible match";
+  }
+
   function renderRootChips(roots, activeRoot) {
     const host = $("#guide-reveal-roots");
     if (!host) return;
     if (roots.length <= 1) { host.innerHTML = ""; host.hidden = true; return; }
     host.hidden = false;
     host.setAttribute("role", "tablist");
-    host.setAttribute("aria-label", "Likely nerve roots — select one to see its details");
+    host.setAttribute("aria-label", "Likely nerve roots, ranked by how well they match — select one to see its details");
+    const topScore = Math.max.apply(null, roots.map((r) => r.score || 0).concat([0.0001]));
     host.innerHTML = roots
       .map((r) => {
         const selected = r.root === activeRoot;
+        const ratio = topScore > 0 ? Math.max(0, Math.min(1, (r.score || 0) / topScore)) : 0;
+        const pct = Math.round(ratio * 100);
+        const strength = matchStrengthLabel(ratio);
+        // A slim bar visualises the relative fit; the text label keeps it
+        // accessible without exposing a raw score.
         return `<button type="button" role="tab" class="reveal-root-chip${selected ? " is-active" : ""}"`
           + ` data-reveal-chip="${r.root}" data-testid="chip-reveal-${r.root}"`
-          + ` aria-selected="${selected ? "true" : "false"}" tabindex="${selected ? "0" : "-1"}">${r.root}</button>`;
+          + ` aria-selected="${selected ? "true" : "false"}" tabindex="${selected ? "0" : "-1"}">`
+          + `<span class="reveal-chip-root">${r.root}</span>`
+          + `<span class="reveal-chip-meter" aria-hidden="true"><span class="reveal-chip-fill" style="width:${pct}%"></span></span>`
+          + `<span class="reveal-chip-strength">${strength}</span>`
+          + `</button>`;
       })
       .join("");
   }
