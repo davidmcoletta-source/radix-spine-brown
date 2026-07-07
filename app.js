@@ -822,10 +822,41 @@ function syncActiveStates() {
   });
   // Nav links + bottom tab bar
   $$(".nav-link").forEach((link) => {
-    link.classList.toggle("is-active", link.dataset.openPage === state.page);
+    const on = link.dataset.openPage === state.page;
+    link.classList.toggle("is-active", on);
+    // Expose the current page to assistive tech, not just visually.
+    if (on) link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
   });
   $$(".tab").forEach((tab) => {
-    tab.classList.toggle("is-active", tab.dataset.openPage === state.page);
+    const on = tab.dataset.openPage === state.page;
+    tab.classList.toggle("is-active", on);
+    if (on) tab.setAttribute("aria-current", "page");
+    else tab.removeAttribute("aria-current");
+  });
+
+  // Keep roving tabindex in sync so each radiogroup is a single tab stop and
+  // arrow keys move within it (WAI-ARIA radiogroup pattern).
+  applyRovingTabindex();
+}
+
+// For each level/morphology radiogroup, only the checked radio is tabbable;
+// the rest are reachable via arrow keys. Scoped to app-owned groups so the
+// paint palette (managed by paint.js) is left untouched.
+function applyRovingTabindex() {
+  [".disc-levels", ".cervical-levels", ".thoracic-levels", ".morph-toggle"].forEach((sel) => {
+    const host = $(sel);
+    if (!host) return;
+    const radios = host.querySelectorAll('[role="radio"]');
+    let hasChecked = false;
+    radios.forEach((r) => {
+      if (r.getAttribute("aria-checked") === "true") hasChecked = true;
+    });
+    radios.forEach((r, i) => {
+      const checked = r.getAttribute("aria-checked") === "true";
+      const tabbable = checked || (!hasChecked && i === 0);
+      r.setAttribute("tabindex", tabbable ? "0" : "-1");
+    });
   });
 }
 
@@ -836,6 +867,56 @@ function syncActiveStates() {
 // setPage()/router calls do NOT push a new history entry (which would corrupt
 // the back/forward stack). All history writes go through writeHistory().
 let suppressHistory = false;
+
+// --- Accessibility: announce SPA "page" changes to assistive technology ------
+// A single-page app swaps sections without a real navigation, so screen readers
+// get no cue that the view changed and the browser tab title stays frozen. We
+// keep document.title in sync and push a short message to a visually-hidden
+// polite live region so non-visual users hear the new context.
+const PAGE_TITLES = {
+  landing: "Norman Prince Spine Institute — Nerve Root Localizer | Brown University Health",
+  cervical: "Cervical nerve root localizer | Norman Prince Spine Institute",
+  thoracic: "Thoracic nerve root localizer | Norman Prince Spine Institute",
+  lumbar: "Lumbar nerve root localizer | Norman Prince Spine Institute",
+  symptom: "Symptom pain drawing | Norman Prince Spine Institute",
+  sources: "Sources | Norman Prince Spine Institute",
+};
+const PAGE_ANNOUNCE = {
+  landing: "Home",
+  cervical: "Cervical region",
+  thoracic: "Thoracic region",
+  lumbar: "Lumbar region",
+  symptom: "Symptom pain drawing",
+  sources: "Sources",
+};
+
+let routeLiveRegion = null;
+function getRouteLiveRegion() {
+  if (routeLiveRegion) return routeLiveRegion;
+  const el = document.createElement("div");
+  el.setAttribute("aria-live", "polite");
+  el.setAttribute("aria-atomic", "true");
+  // Visually hidden but present in the accessibility tree.
+  el.style.cssText =
+    "position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;" +
+    "clip:rect(0 0 0 0);clip-path:inset(50%);border:0;white-space:nowrap;";
+  document.body.appendChild(el);
+  routeLiveRegion = el;
+  return el;
+}
+
+function announceRoute(page) {
+  const title = PAGE_TITLES[page];
+  if (title) document.title = title;
+  const label = PAGE_ANNOUNCE[page];
+  if (!label) return;
+  const region = getRouteLiveRegion();
+  // Clear first so repeat navigations to the same label still re-announce.
+  region.textContent = "";
+  window.requestAnimationFrame(() => {
+    region.textContent = label + " — page loaded";
+  });
+}
 
 function buildHash(page, sub) {
   if (page === "landing") return "#";
@@ -868,6 +949,10 @@ function setPage(page, options = {}) {
   });
 
   syncActiveStates();
+
+  // Only speak the change for genuine user navigations; boot/popstate restores
+  // run under suppressHistory and would double-announce or fire before load.
+  if (!suppressHistory) announceRoute(page);
 
   // Preserve an existing symptom sub-step in the hash unless told otherwise, so
   // a level/morph redirect to another page doesn't clobber the drawing step.
@@ -989,6 +1074,26 @@ function initKeyboard() {
   wire(".disc-levels", DISC_LEVELS, () => state.level, setLevel);
   wire(".cervical-levels", CERVICAL_LEVELS, () => state.cervicalLevel, setCervicalLevel);
   wire(".thoracic-levels", THORACIC_LEVELS, () => state.thoracicLevel, setThoracicLevel);
+
+  // Morphology segmented control is also a radiogroup; give it the same
+  // arrow-key behavior, keyed off each button's data-morph value.
+  const morphHost = $(".morph-toggle");
+  if (morphHost) {
+    morphHost.addEventListener("keydown", (e) => {
+      const btns = Array.from(morphHost.querySelectorAll(".morph-btn"));
+      const values = btns.map((b) => b.dataset.morph);
+      const idx = values.indexOf(state.morphology);
+      if (idx < 0) return;
+      let next = null;
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") next = Math.min(values.length - 1, idx + 1);
+      else if (e.key === "ArrowLeft" || e.key === "ArrowUp") next = Math.max(0, idx - 1);
+      if (next !== null && next !== idx) {
+        e.preventDefault();
+        setMorphology(values[next]);
+        if (btns[next]) btns[next].focus();
+      }
+    });
+  }
 }
 
 
